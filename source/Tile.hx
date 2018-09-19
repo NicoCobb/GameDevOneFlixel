@@ -19,17 +19,17 @@ class Tile extends FlxSprite{
         super(X, Y, SimpleGraphic);
         switch (type) {
             case Regular:
-                makeGraphic(32, 32, FlxColor.GREEN);
+                makeGraphic(64, 64, FlxColor.GREEN);
             case Unwalkable:
-                makeGraphic(32, 32, FlxColor.WHITE);
+                makeGraphic(64, 64, FlxColor.WHITE);
             case Water:
-                makeGraphic(32, 32, FlxColor.BLUE);
+                makeGraphic(64, 64, FlxColor.BLUE);
             case Fire:
-                makeGraphic(32, 32, FlxColor.RED);
+                makeGraphic(64, 64, FlxColor.RED);
             case FSource:
-                makeGraphic(32, 32, FlxColor.RED);
+                makeGraphic(64, 64, FlxColor.RED);
             case WSource:
-                makeGraphic(128, 128, FlxColor.BLUE);
+                makeGraphic(64, 64, FlxColor.BLUE);
             default:
         }
      }

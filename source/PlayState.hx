@@ -4,16 +4,44 @@ import flixel.FlxState;
 
 class PlayState extends FlxState
 {
-	var _regularTile : Tile;
-	var _unwakableTile : Tile;
-	var _fireTile : Tile;
-	var _waterTile : Tile;
-	var _fSourceTile : Tile;
-	var _wSourceTile : Tile;
+	var _baseUnit : Int = 64;
+	var _tHeight : Int = 12;
+	var _tWidth : Int = 20;
+	var ground = [];
 
 	override public function create():Void
 	{
-		_regularTile = new Tile(Tile.TileType.Regular, 20, 20);
+		generateLevel();
+		super.create();
+	}
+
+	override public function update(elapsed:Float):Void
+	{
+		super.update(elapsed);
+	}
+
+	public function generateLevel() : Void
+    {
+        for (i in 0..._tHeight)
+        {
+			ground.push([]);
+            for (j in 0..._tWidth) 
+            {	
+                if (i==0 || i==(_tHeight-1) || j==0 || j==(_tWidth-1))
+                {
+                    ground[i].push(new Tile(Tile.TileType.Unwalkable, j*_baseUnit, i*_baseUnit));
+                    add(ground[i][j]);
+                }
+				else
+				{
+					ground[i].push(new Tile(Tile.TileType.Regular, j*_baseUnit, i*_baseUnit));
+                    add(ground[i][j]);
+				}
+            }
+        }
+
+/*
+        _regularTile = new Tile(Tile.TileType.Regular, 32, 32);
 		_unwakableTile = new Tile(Tile.TileType.Unwalkable, 80, 20);
 		_fireTile = new Tile(Tile.TileType.Fire, 140, 20);
 		_waterTile = new Tile(Tile.TileType.Water, 200, 20);
@@ -25,11 +53,6 @@ class PlayState extends FlxState
 		add(_waterTile);
 		add(_fSourceTile);
 		add(_wSourceTile);
-		super.create();
-	}
-
-	override public function update(elapsed:Float):Void
-	{
-		super.update(elapsed);
-	}
+        */
+    }
 }
