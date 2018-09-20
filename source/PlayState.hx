@@ -17,9 +17,9 @@ class PlayState extends FlxState
 	override public function create():Void
 	{
 		generateLevel();
-		_player1 = new Player(Bomb.BombType.Fire, 64, 64);
+		_player1 = new Player(this, Bomb.BombType.Fire, 64, 64);
 		add(_player1);
-		_player2 = new Player(Bomb.BombType.Water, (_tWidth-2)*64, (_tHeight-2)*64);
+		_player2 = new Player(this, Bomb.BombType.Water, (_tWidth-2)*64, (_tHeight-2)*64);
 		add(_player2);
 		super.create();
 	}
@@ -35,6 +35,15 @@ class PlayState extends FlxState
 					FlxG.collide(_player1, ground[i][j]);
 					FlxG.collide(_player2, ground[i][j]);
 			}
+		}
+
+		for (i in 0..._player1.bombs.length) {
+			FlxG.collide(_player1, _player1.bombs[i]);
+			FlxG.collide(_player2, _player1.bombs[i]);
+		}
+		for (i in 0..._player2.bombs.length) {
+			FlxG.collide(_player1, _player2.bombs[i]);
+			FlxG.collide(_player2, _player2.bombs[i]);
 		}
 	}
 
