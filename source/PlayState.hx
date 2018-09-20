@@ -40,7 +40,7 @@ class PlayState extends FlxState
         for (i in 0..._tHeight)
         {
 			ground.push([]);
-            for (j in 0..._tWidth) 
+            for (j in 0..._tWidth)
             {	
                 if (i==0 || i==(_tHeight-1) || j==0 || j==(_tWidth-1))
                 {
