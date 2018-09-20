@@ -15,8 +15,12 @@ enum TileType {
 }
 
 class Tile extends FlxSprite{
-     public function new(type:TileType, ?X:Float=0, ?Y:Float=0, ?SimpleGraphic:FlxGraphicAsset) {
+
+    public var type:TileType;
+
+     public function new(t:TileType, ?X:Float=0, ?Y:Float=0, ?SimpleGraphic:FlxGraphicAsset) {
         super(X, Y, SimpleGraphic);
+        type = t;
         switch (type) {
             case Regular:
                 makeGraphic(64, 64, FlxColor.GREEN);
@@ -32,5 +36,6 @@ class Tile extends FlxSprite{
                 makeGraphic(64, 64, FlxColor.BLUE);
             default:
         }
+        immovable = true;
      }
  }

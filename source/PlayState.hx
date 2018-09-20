@@ -1,6 +1,7 @@
 package;
 
 import flixel.FlxState;
+import flixel.FlxG;
 
 class PlayState extends FlxState
 {
@@ -9,17 +10,31 @@ class PlayState extends FlxState
 	var _tWidth : Int = 20;
 	var ground = [];
 
+	// Player 
+	var _player : Player;
+
 	override public function create():Void
 	{
 		generateLevel();
+		_player = new Player(64, 64);
+		add(_player);
 		super.create();
 	}
 
 	override public function update(elapsed:Float):Void
 	{
 		super.update(elapsed);
+		for (i in 0..._tHeight)
+        {
+			for (j in 0..._tWidth)
+			{
+				if (ground[i][j].type == Tile.TileType.Unwalkable)
+					FlxG.collide(_player, ground[i][j]);
+			}
+		}
 	}
 
+	// Should be somehow randomized later
 	public function generateLevel() : Void
     {
         for (i in 0..._tHeight)
