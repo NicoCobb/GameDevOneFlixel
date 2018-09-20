@@ -18,8 +18,8 @@ class PlayState extends FlxState
 	{
 		generateLevel();
 		_player1 = new Player(Bomb.BombType.Fire, 64, 64);
-		_player2 = new Player(Bomb.BombType.Water, (_tWidth-2)*64, (_tHeight-2)*64);
 		add(_player1);
+		_player2 = new Player(Bomb.BombType.Water, (_tWidth-2)*64, (_tHeight-2)*64);
 		add(_player2);
 		super.create();
 	}
