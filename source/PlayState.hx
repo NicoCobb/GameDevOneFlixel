@@ -11,13 +11,16 @@ class PlayState extends FlxState
 	var ground = [];
 
 	// Player 
-	var _player : Player;
+	var _player1 : Player;
+	var _player2 : Player;
 
 	override public function create():Void
 	{
 		generateLevel();
-		_player = new Player(64, 64);
-		add(_player);
+		_player1 = new Player(Bomb.BombType.Fire, 64, 64);
+		_player2 = new Player(Bomb.BombType.Water, (_tWidth-2)*64, (_tHeight-2)*64);
+		add(_player1);
+		add(_player2);
 		super.create();
 	}
 
@@ -29,7 +32,8 @@ class PlayState extends FlxState
 			for (j in 0..._tWidth)
 			{
 				if (ground[i][j].type == Tile.TileType.Unwalkable)
-					FlxG.collide(_player, ground[i][j]);
+					FlxG.collide(_player1, ground[i][j]);
+					FlxG.collide(_player2, ground[i][j]);
 			}
 		}
 	}
