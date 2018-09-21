@@ -16,6 +16,7 @@ class PlayState extends FlxState
 
 	override public function create():Void
 	{
+		FlxG.debugger.visible = true;
 		generateLevel();
 		_player1 = new Player(this, Bomb.BombType.Fire, 64, 64);
 		add(_player1);
