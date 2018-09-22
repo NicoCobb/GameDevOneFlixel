@@ -5,6 +5,7 @@
  import flixel.FlxG;
  import flixel.util.FlxColor;
  import flixel.input.keyboard.FlxKey;
+ import flixel.text.FlxText;
 
  enum Forward {
      up;
@@ -25,6 +26,10 @@
      public var bombs: Array<Bomb>;
 
      var _playState:PlayState;
+
+    // Debugging purpose
+     var myText:FlxText;
+
      public function new(_ps:PlayState, bombType:Bomb.BombType, ?X:Float=0, ?Y:Float=0, ?SimpleGraphic:FlxGraphicAsset)
      {
          super(X, Y, SimpleGraphic);
@@ -41,9 +46,16 @@
          bombs = new Array<Bomb>();
          drag.x = 100;
          drag.y = 100;
+         _speed = 3200;
 
          _maxBombCount = 3;
          _currentBombCount = 3;
+
+         myText = new FlxText(110, 100, 500);
+        myText.text = "";
+        myText.setFormat("assets/font.ttf", 20, FlxColor.WHITE, "center");
+
+        _playState.add(myText);
      }
 
      override public function update(elapsed:Float) : Void
@@ -57,6 +69,17 @@
         //     animation.stop();
         // }
 
+        movement(elapsed);
+
+        super.update(elapsed);
+     }
+
+    // Invoke when player withdraws bombs
+     public function withdrawBombs() {
+         _currentBombCount = _maxBombCount;
+     }
+
+     public function movement(elapsed:Float) {
         // 1st player
         if (_bombType == Bomb.BombType.Fire) {
             
@@ -81,15 +104,15 @@
                 _forward = Forward.up;
             }
 
-            if (FlxG.keys.anyJustPressed([J])) {
+            if (FlxG.keys.anyJustPressed([G])) {
                 douseBomb();
             }
         }
         
         // 2nd player, doesn't work, don't know why
         if (_bombType == Bomb.BombType.Water) {
-            
-            if (FlxG.keys.anyPressed([RIGHT])) 
+                        
+            if (FlxG.keys.anyPressed([RIGHT]))
             {
                 velocity.set(_speed * elapsed, 0);
                 _forward = Forward.right;
@@ -99,13 +122,13 @@
                 velocity.set(-_speed * elapsed, 0);
                 _forward = Forward.left;
             }
-            else if (FlxG.keys.anyPressed([DOWN])) 
-            {
+            else if (FlxG.keys.anyPressed([DOWN]))
+            {            
                 velocity.set(0, _speed * elapsed);
                 _forward = Forward.down;
             }
             else if (FlxG.keys.anyPressed([UP]))
-            {
+            {            
                 velocity.set(0, -_speed * elapsed);
                 _forward = Forward.up;
             }
@@ -114,13 +137,6 @@
                 douseBomb();
             }
         }
-
-        super.update(elapsed);
-     }
-
-    // Invoke when player withdraws bombs
-     public function withdrawBombs() {
-         _currentBombCount = _maxBombCount;
      }
 
     // Invoke when player douses a bomb
