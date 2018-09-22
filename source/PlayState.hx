@@ -2,6 +2,7 @@ package;
 
 import flixel.FlxState;
 import flixel.FlxG;
+import flixel.group.FlxGroup;
 
 class PlayState extends FlxState
 {
@@ -13,6 +14,7 @@ class PlayState extends FlxState
 	// Player 
 	var _player1 : Player;
 	var _player2 : Player;
+	var _players : FlxTypedGroup<Player>;
 
 	override public function create():Void
 	{
@@ -22,6 +24,10 @@ class PlayState extends FlxState
 		add(_player1);
 		_player2 = new Player(this, Bomb.BombType.Water, (_tWidth-2)*64, (_tHeight-2)*64);
 		add(_player2);
+
+		_players = new FlxTypedGroup<Player>();
+		_players.add(_player1);
+		_players.add(_player2);
 		super.create();
 	}
 
@@ -33,18 +39,15 @@ class PlayState extends FlxState
 			for (j in 0..._tWidth)
 			{
 				if (ground[i][j].type == Tile.TileType.Unwalkable)
-					FlxG.collide(_player1, ground[i][j]);
-					FlxG.collide(_player2, ground[i][j]);
+					FlxG.collide(_players, ground[i][j]);
 			}
 		}
 
 		for (i in 0..._player1.bombs.length) {
-			FlxG.collide(_player1, _player1.bombs[i]);
-			FlxG.collide(_player2, _player1.bombs[i]);
+			FlxG.collide(_players, _player1.bombs[i]);
 		}
 		for (i in 0..._player2.bombs.length) {
-			FlxG.collide(_player1, _player2.bombs[i]);
-			FlxG.collide(_player2, _player2.bombs[i]);
+			FlxG.collide(_players, _player2.bombs[i]);
 		}
 	}
 

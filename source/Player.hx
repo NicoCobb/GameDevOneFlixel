@@ -27,6 +27,7 @@
 
      var _playState:PlayState;
 
+    // Debugging purpose
      var myText:FlxText;
 
      public function new(_ps:PlayState, bombType:Bomb.BombType, ?X:Float=0, ?Y:Float=0, ?SimpleGraphic:FlxGraphicAsset)
@@ -113,25 +114,21 @@
                         
             if (FlxG.keys.anyPressed([RIGHT]))
             {
-                myText.text = Std.string(_speed);
                 velocity.set(_speed * elapsed, 0);
                 _forward = Forward.right;
             }
             else if (FlxG.keys.anyPressed([LEFT])) 
             {
-                myText.text = Std.string(_speed* elapsed);               
                 velocity.set(-_speed * elapsed, 0);
                 _forward = Forward.left;
             }
-            else if (FlxG.keys.anyPressed([DOWN])) 
-            {
-                myText.text = Std.string(_speed);              
+            else if (FlxG.keys.anyPressed([DOWN]))
+            {            
                 velocity.set(0, _speed * elapsed);
                 _forward = Forward.down;
             }
             else if (FlxG.keys.anyPressed([UP]))
-            {
-                myText.text = Std.string(_speed);              
+            {            
                 velocity.set(0, -_speed * elapsed);
                 _forward = Forward.up;
             }
