@@ -29,6 +29,8 @@ class Explode extends FlxSprite {
             default:
         }
         immovable = true;
+
+        overtakeTile();
         _playState.add(this);
     }
 
@@ -51,5 +53,31 @@ class Explode extends FlxSprite {
     function onOverlap(object1:FlxObject, object2:FlxObject) : Void {
         var player = cast (object2, Player);
         player.pushBack(_direction);
+    }
+
+    // Overtake this tile
+    function overtakeTile(): Void {
+        var tileX = Math.round(y / 64);
+        var tileY = Math.round(x / 64);
+        if (tileX < 0 || tileY <0 || tileX >= _playState._tHeight || tileY >= _playState._tWidth) {
+            return;
+        }
+        if (_playState.ground[tileX][tileY].type != Tile.TileType.Unwalkable) {
+            switch (_bombType) {
+                case Bomb.BombType.Fire:
+                    if (_playState.ground[tileX][tileY].type != Tile.TileType.Fire) {
+                        _playState.remove(_playState.ground[tileX][tileY]);
+                        _playState.ground[tileX][tileY] = new Tile(Tile.TileType.Fire, tileY*64, tileX*64);
+                        _playState.add(_playState.ground[tileX][tileY]);
+                    }
+                case Bomb.BombType.Water:
+                    if (_playState.ground[tileX][tileY].type != Tile.TileType.Water) {
+                        _playState.remove(_playState.ground[tileX][tileY]);
+                        _playState.ground[tileX][tileY] = new Tile(Tile.TileType.Water, tileY*64, tileX*64);
+                        _playState.add(_playState.ground[tileX][tileY]);
+                    }
+                default:
+            }
+        }
     }
 }

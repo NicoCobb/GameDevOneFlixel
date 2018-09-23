@@ -7,8 +7,8 @@ import flixel.group.FlxGroup;
 class PlayState extends FlxState
 {
 	var _baseUnit : Int = 64;
-	var _tHeight : Int = 12;
-	var _tWidth : Int = 20;
+	public var _tHeight : Int = 12;
+	public var _tWidth : Int = 20;
 	public var ground : Array<Array<Tile>>;
 
 	// Player 

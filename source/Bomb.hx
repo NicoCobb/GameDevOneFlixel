@@ -41,6 +41,7 @@ class Bomb extends FlxSprite{
     // Callback functions invoked when time is up
     function onExplode(Timer:FlxTimer) : Void {
         explode();
+        overtakeTile();
         Timer.start(0.3, onRemove);
     }
 
@@ -76,5 +77,31 @@ class Bomb extends FlxSprite{
         // }
 
         super.update(elapsed);
+    }
+
+    function overtakeTile(): Void {
+        // Overtake this tile
+        var tileX = Math.round(y / 64);
+        var tileY = Math.round(x / 64);
+        if (tileX < 0 || tileY <0 || tileX >= _playState._tHeight || tileY >= _playState._tWidth) {
+            return;
+        }
+        if (_playState.ground[tileX][tileY].type != Tile.TileType.Unwalkable) {
+            switch (type) {
+                case Bomb.BombType.Fire:
+                    if (_playState.ground[tileX][tileY].type != Tile.TileType.Fire) {
+                        _playState.remove(_playState.ground[tileX][tileY]);
+                        _playState.ground[tileX][tileY] = new Tile(Tile.TileType.Fire, tileY*64, tileX*64);
+                        _playState.add(_playState.ground[tileX][tileY]);
+                    }
+                case Bomb.BombType.Water:
+                    if (_playState.ground[tileX][tileY].type != Tile.TileType.Water) {
+                        _playState.remove(_playState.ground[tileX][tileY]);
+                        _playState.ground[tileX][tileY] = new Tile(Tile.TileType.Water, tileY*64, tileX*64);
+                        _playState.add(_playState.ground[tileX][tileY]);
+                    }
+                default:
+            }
+        }
     }
 }
