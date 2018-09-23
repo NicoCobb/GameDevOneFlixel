@@ -9,12 +9,12 @@ class PlayState extends FlxState
 	var _baseUnit : Int = 64;
 	var _tHeight : Int = 12;
 	var _tWidth : Int = 20;
-	var ground = [];
+	public var ground : Array<Array<Tile>>;
 
 	// Player 
 	var _player1 : Player;
 	var _player2 : Player;
-	var _players : FlxTypedGroup<Player>;
+	public var _players : FlxTypedGroup<Player>;
 
 	override public function create():Void
 	{
@@ -54,9 +54,10 @@ class PlayState extends FlxState
 	// Should be somehow randomized later
 	public function generateLevel() : Void
     {
+		ground = new Array<Array<Tile>>();
         for (i in 0..._tHeight)
         {
-			ground.push([]);
+			ground.push(new Array<Tile>());
             for (j in 0..._tWidth)
             {	
                 if (i==0 || i==(_tHeight-1) || j==0 || j==(_tWidth-1))

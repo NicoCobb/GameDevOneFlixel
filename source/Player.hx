@@ -6,6 +6,7 @@
  import flixel.util.FlxColor;
  import flixel.input.keyboard.FlxKey;
  import flixel.text.FlxText;
+ import flixel.util.FlxTimer;
 
  enum Forward {
      up;
@@ -17,15 +18,19 @@
  class Player extends FlxSprite
  {
      var _speed : Float = 3200;
-
+     var _pushBackSpeed: Float = 1000;
      var _forward:Forward;
 
-     var _bombType:Bomb.BombType;
+     public var _bombType:Bomb.BombType;
      var _maxBombCount:Int;
      var _currentBombCount:Int;
      public var bombs: Array<Bomb>;
 
      var _playState:PlayState;
+
+     // Handle push back
+     var _isPushingBack: Bool;
+     var _pushBackTimer: FlxTimer;
 
     // Debugging purpose
      var myText:FlxText;
@@ -47,9 +52,13 @@
          drag.x = 100;
          drag.y = 100;
          _speed = 3200;
+         _pushBackSpeed = 1000;
 
          _maxBombCount = 3;
-         _currentBombCount = 3;
+         _currentBombCount = 5;
+
+         _isPushingBack = false;
+         _pushBackTimer = new FlxTimer();
 
          myText = new FlxText(110, 100, 500);
         myText.text = "";
@@ -83,25 +92,27 @@
         // 1st player
         if (_bombType == Bomb.BombType.Fire) {
             
-            if (FlxG.keys.anyPressed([D]))
-            {
-                velocity.set(_speed * elapsed, 0);
-                _forward = Forward.right;
-            }
-            else if (FlxG.keys.anyPressed([A]))
-            {
-                velocity.set(-_speed * elapsed, 0);
-                _forward = Forward.left;
-            }
-            else if (FlxG.keys.anyPressed([S]))
-            {
-                velocity.set(0, _speed * elapsed);
-                _forward = Forward.down;
-            }
-            else if (FlxG.keys.anyPressed([W]))
-            {
-                velocity.set(0, -_speed * elapsed);
-                _forward = Forward.up;
+            if (!_isPushingBack) {
+                if (FlxG.keys.anyPressed([D]))
+                {
+                    velocity.set(_speed * elapsed, 0);
+                    _forward = Forward.right;
+                }
+                else if (FlxG.keys.anyPressed([A]))
+                {
+                    velocity.set(-_speed * elapsed, 0);
+                    _forward = Forward.left;
+                }
+                else if (FlxG.keys.anyPressed([S]))
+                {
+                    velocity.set(0, _speed * elapsed);
+                    _forward = Forward.down;
+                }
+                else if (FlxG.keys.anyPressed([W]))
+                {
+                    velocity.set(0, -_speed * elapsed);
+                    _forward = Forward.up;
+                }
             }
 
             if (FlxG.keys.anyJustPressed([G])) {
@@ -112,25 +123,27 @@
         // 2nd player, doesn't work, don't know why
         if (_bombType == Bomb.BombType.Water) {
                         
-            if (FlxG.keys.anyPressed([RIGHT]))
-            {
-                velocity.set(_speed * elapsed, 0);
-                _forward = Forward.right;
-            }
-            else if (FlxG.keys.anyPressed([LEFT])) 
-            {
-                velocity.set(-_speed * elapsed, 0);
-                _forward = Forward.left;
-            }
-            else if (FlxG.keys.anyPressed([DOWN]))
-            {            
-                velocity.set(0, _speed * elapsed);
-                _forward = Forward.down;
-            }
-            else if (FlxG.keys.anyPressed([UP]))
-            {            
-                velocity.set(0, -_speed * elapsed);
-                _forward = Forward.up;
+            if (!_isPushingBack) {
+                if (FlxG.keys.anyPressed([RIGHT]))
+                {
+                    velocity.set(_speed * elapsed, 0);
+                    _forward = Forward.right;
+                }
+                else if (FlxG.keys.anyPressed([LEFT])) 
+                {
+                    velocity.set(-_speed * elapsed, 0);
+                    _forward = Forward.left;
+                }
+                else if (FlxG.keys.anyPressed([DOWN]))
+                {            
+                    velocity.set(0, _speed * elapsed);
+                    _forward = Forward.down;
+                }
+                else if (FlxG.keys.anyPressed([UP]))
+                {            
+                    velocity.set(0, -_speed * elapsed);
+                    _forward = Forward.up;
+                }
             }
 
             if (FlxG.keys.anyJustPressed([NUMPADONE])) {
@@ -144,19 +157,54 @@
          if (_currentBombCount > 0) {
              // spawn if valid
              var tempBomb : Bomb;
+             var tempX : Int;
+             var tempY : Int;
              switch (_forward) {
                  case Forward.down:
-                    tempBomb = new Bomb(_bombType, x, y+64);
+                    tempX = Math.round(x / 64.0);
+                    tempY = Math.round(y / 64.0) + 1;
                  case Forward.up:
-                    tempBomb = new Bomb(_bombType, x, y-64);
+                    tempX = Math.round(x / 64.0);
+                    tempY = Math.round(y / 64.0) - 1;
                  case Forward.left:
-                    tempBomb = new Bomb(_bombType, x-64, y);
+                    tempY = Math.round(y / 64.0);
+                    tempX = Math.round(x / 64.0) - 1;
                  case Forward.right:
-                    tempBomb = new Bomb(_bombType, x+64, y);
-             }
+                    tempY = Math.round(y / 64.0);
+                    tempX = Math.round(x / 64.0) + 1;
+            }
+
+            // Check the validity
+            if (_playState.ground[tempY][tempX].type == Tile.TileType.Unwalkable) {
+                return;
+            }
+            tempBomb = new Bomb(this, _playState, _bombType, tempX*64, tempY*64);
             _playState.add(tempBomb);
             bombs.push(tempBomb);
-             _currentBombCount--;
+            _currentBombCount--;
          }
+     }
+
+     // Push back function
+     public function pushBack(dir:Forward) {
+         _isPushingBack = true;
+         switch (dir) {
+             case Forward.left:
+                velocity.set(-_pushBackSpeed, 0);
+             case Forward.right:
+                velocity.set(_pushBackSpeed, 0);
+             case Forward.up:
+                velocity.set(0, -_pushBackSpeed);
+             case Forward.down:
+                velocity.set(0, _pushBackSpeed);
+             default:
+
+         }
+        _forward = dir;
+        _pushBackTimer.start(1, onPushBackComplete);
+     }
+
+     function onPushBackComplete(Timer:FlxTimer) : Void {
+         _isPushingBack = false;
      }
  }
