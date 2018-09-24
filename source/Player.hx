@@ -18,6 +18,7 @@
  class Player extends FlxSprite
  {
      var _speed : Float = 3200;
+     var _slowSpeed : Float = 2400;
      var _pushBackSpeed: Float = 1000;
      var _forward:Forward;
 
@@ -89,28 +90,44 @@
      }
 
      public function movement(elapsed:Float) {
+
+        var tileXmin = Math.floor(y / 64.0);
+        var tileXmax = Math.ceil(y / 64.0);
+        var tileYmin = Math.floor(x / 64.0);
+        var tileYmax = Math.ceil(x / 64.0);
+        var _s = _speed;
+
         // 1st player
         if (_bombType == Bomb.BombType.Fire) {
+
+            // Check if player is on opponent's territory
+            
+            if (_playState.ground[tileXmin][tileYmin].type == Tile.TileType.Water ||
+            _playState.ground[tileXmin][tileYmax].type == Tile.TileType.Water ||
+            _playState.ground[tileXmax][tileYmin].type == Tile.TileType.Water ||
+            _playState.ground[tileXmax][tileYmax].type == Tile.TileType.Water) {
+                _s = _slowSpeed;
+            }
             
             if (!_isPushingBack) {
                 if (FlxG.keys.anyPressed([D]))
                 {
-                    velocity.set(_speed * elapsed, 0);
+                    velocity.set(_s * elapsed, 0);
                     _forward = Forward.right;
                 }
                 else if (FlxG.keys.anyPressed([A]))
                 {
-                    velocity.set(-_speed * elapsed, 0);
+                    velocity.set(-_s * elapsed, 0);
                     _forward = Forward.left;
                 }
                 else if (FlxG.keys.anyPressed([S]))
                 {
-                    velocity.set(0, _speed * elapsed);
+                    velocity.set(0, _s * elapsed);
                     _forward = Forward.down;
                 }
                 else if (FlxG.keys.anyPressed([W]))
                 {
-                    velocity.set(0, -_speed * elapsed);
+                    velocity.set(0, -_s * elapsed);
                     _forward = Forward.up;
                 }
             }
@@ -122,26 +139,33 @@
         
         // 2nd player, doesn't work, don't know why
         if (_bombType == Bomb.BombType.Water) {
-                        
+            
+            if (_playState.ground[tileXmin][tileYmin].type == Tile.TileType.Fire ||
+            _playState.ground[tileXmin][tileYmax].type == Tile.TileType.Fire ||
+            _playState.ground[tileXmax][tileYmin].type == Tile.TileType.Fire ||
+            _playState.ground[tileXmax][tileYmax].type == Tile.TileType.Fire) {
+                _s = _slowSpeed;
+            }
+
             if (!_isPushingBack) {
                 if (FlxG.keys.anyPressed([RIGHT]))
                 {
-                    velocity.set(_speed * elapsed, 0);
+                    velocity.set(_s * elapsed, 0);
                     _forward = Forward.right;
                 }
                 else if (FlxG.keys.anyPressed([LEFT])) 
                 {
-                    velocity.set(-_speed * elapsed, 0);
+                    velocity.set(-_s * elapsed, 0);
                     _forward = Forward.left;
                 }
                 else if (FlxG.keys.anyPressed([DOWN]))
                 {            
-                    velocity.set(0, _speed * elapsed);
+                    velocity.set(0, _s * elapsed);
                     _forward = Forward.down;
                 }
                 else if (FlxG.keys.anyPressed([UP]))
                 {            
-                    velocity.set(0, -_speed * elapsed);
+                    velocity.set(0, -_s * elapsed);
                     _forward = Forward.up;
                 }
             }
