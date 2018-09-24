@@ -5,6 +5,7 @@ import flixel.FlxState;
 import flixel.ui.FlxButton;
 import flixel.text.FlxText;
 import flixel.util.FlxAxes;
+import flixel.util.FlxColor;
 
 class OptionsState extends FlxState {
     var _btnBack: FlxButton;
@@ -17,6 +18,8 @@ class OptionsState extends FlxState {
     }
 
     function clickBack(): Void {
-        FlxG.switchState(new MenuState());
+        FlxG.camera.fade(FlxColor.BLACK, 0.5, false, function(){
+            FlxG.switchState(new MenuState());
+        });
     }
 }
