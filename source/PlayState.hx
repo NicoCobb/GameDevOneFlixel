@@ -28,6 +28,11 @@ class PlayState extends FlxState
 		_players = new FlxTypedGroup<Player>();
 		_players.add(_player1);
 		_players.add(_player2);
+
+		// Play background music
+		if (FlxG.sound.music == null) {
+			FlxG.sound.playMusic(AssetPaths.simpleSong__ogg, 0.75, true);
+		}
 		super.create();
 	}
 

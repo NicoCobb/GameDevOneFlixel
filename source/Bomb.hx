@@ -5,6 +5,7 @@ import flixel.system.FlxAssets.FlxGraphicAsset;
 import flixel.FlxG;
 import flixel.util.FlxColor;
 import flixel.util.FlxTimer;
+import flixel.system.FlxSound;
 
 enum BombType {
     Water;
@@ -17,6 +18,7 @@ class Bomb extends FlxSprite{
      var _exploreTime: Float;
      var _timer: FlxTimer;
      var _player: Player;
+     var _sndExplosion: FlxSound;
 
     public function new(p:Player, ps:PlayState, t:BombType, ?X:Float=0, ?Y:Float=0, ?SimpleGraphic:FlxGraphicAsset) {
         super(X, Y, SimpleGraphic);
@@ -36,6 +38,7 @@ class Bomb extends FlxSprite{
         // If we want bomb-pushing feature, we can set it to false
         immovable = true;
         _timer.start(_exploreTime, onExplode);
+        _sndExplosion = FlxG.sound.load(AssetPaths.bombExplode__wav);
     }
 
     // Callback functions invoked when time is up
@@ -63,6 +66,8 @@ class Bomb extends FlxSprite{
         // Right
         new Explode(Player.Forward.right, type, _playState, x+64, y);
         new Explode(Player.Forward.right, type, _playState, x+64*2, y);
+
+        _sndExplosion.play();
     }
 
     override public function update(elapsed:Float) : Void

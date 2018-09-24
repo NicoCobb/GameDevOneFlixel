@@ -1,6 +1,7 @@
  package;
 
  import flixel.FlxSprite;
+ import flixel.system.FlxSound;
  import flixel.system.FlxAssets.FlxGraphicAsset;
  import flixel.FlxG;
  import flixel.util.FlxColor;
@@ -36,6 +37,14 @@
     // Debugging purpose
      var myText:FlxText;
 
+     // Sound effect
+     var _sndStep: FlxSound;
+     var _sndFireStep: FlxSound;
+     var _sndWaterStep: FlxSound;
+     var _sndPlaceBomb: FlxSound;
+     var _sndWithdrawBomb: FlxSound;
+     var _sndPushBack: FlxSound;
+
      public function new(_ps:PlayState, bombType:Bomb.BombType, ?X:Float=0, ?Y:Float=0, ?SimpleGraphic:FlxGraphicAsset)
      {
          super(X, Y, SimpleGraphic);
@@ -66,6 +75,16 @@
         myText.setFormat("assets/font.ttf", 20, FlxColor.WHITE, "center");
 
         _playState.add(myText);
+
+        // Sound effects
+        _sndStep = FlxG.sound.load(AssetPaths.walk__wav);
+        _sndWaterStep = FlxG.sound.load(AssetPaths.waterWalk__wav);
+        _sndWaterStep.volume = 0.75;
+        _sndFireStep = FlxG.sound.load(AssetPaths.fireWalk__wav);
+        _sndFireStep.volume = 0.15;
+        _sndPlaceBomb = FlxG.sound.load(AssetPaths.placeBomb__wav);
+        _sndWithdrawBomb = FlxG.sound.load(AssetPaths.withdrawBomb__wav);
+        _sndPushBack = FlxG.sound.load(AssetPaths.thrownBack__wav);
      }
 
      override public function update(elapsed:Float) : Void
@@ -87,6 +106,7 @@
     // Invoke when player withdraws bombs
      public function withdrawBombs() {
          _currentBombCount = _maxBombCount;
+         _sndWithdrawBomb.play();
      }
 
      public function movement(elapsed:Float) {
@@ -96,6 +116,20 @@
         var tileYmin = Math.floor(x / 64.0);
         var tileYmax = Math.ceil(x / 64.0);
         var _s = _speed;
+
+        var sndTempStep: FlxSound;
+        // Check which tile the player is mostly on
+        var tileXRound = Math.round(y / 64.0);
+        var tileYRound = Math.round(x / 64.0);
+        if (_playState.ground[tileXRound][tileYRound].type == Tile.TileType.Water) {
+                sndTempStep = _sndWaterStep;
+        }
+        else if (_playState.ground[tileXRound][tileYRound].type == Tile.TileType.Fire) {
+                sndTempStep = _sndFireStep;
+        }
+        else {
+            sndTempStep = _sndStep;
+        }
 
         // 1st player
         if (_bombType == Bomb.BombType.Fire) {
@@ -114,21 +148,25 @@
                 {
                     velocity.set(_s * elapsed, 0);
                     _forward = Forward.right;
+                    sndTempStep.play();
                 }
                 else if (FlxG.keys.anyPressed([A]))
                 {
                     velocity.set(-_s * elapsed, 0);
                     _forward = Forward.left;
+                    sndTempStep.play();
                 }
                 else if (FlxG.keys.anyPressed([S]))
                 {
                     velocity.set(0, _s * elapsed);
                     _forward = Forward.down;
+                    sndTempStep.play();
                 }
                 else if (FlxG.keys.anyPressed([W]))
                 {
                     velocity.set(0, -_s * elapsed);
                     _forward = Forward.up;
+                    sndTempStep.play();
                 }
             }
 
@@ -152,21 +190,25 @@
                 {
                     velocity.set(_s * elapsed, 0);
                     _forward = Forward.right;
+                    sndTempStep.play();
                 }
                 else if (FlxG.keys.anyPressed([LEFT])) 
                 {
                     velocity.set(-_s * elapsed, 0);
                     _forward = Forward.left;
+                    sndTempStep.play();
                 }
                 else if (FlxG.keys.anyPressed([DOWN]))
                 {            
                     velocity.set(0, _s * elapsed);
                     _forward = Forward.down;
+                    sndTempStep.play();
                 }
                 else if (FlxG.keys.anyPressed([UP]))
                 {            
                     velocity.set(0, -_s * elapsed);
                     _forward = Forward.up;
+                    sndTempStep.play();
                 }
             }
 
@@ -206,6 +248,7 @@
             _playState.add(tempBomb);
             bombs.push(tempBomb);
             _currentBombCount--;
+            _sndPlaceBomb.play();
          }
      }
 
@@ -226,6 +269,7 @@
          }
         _forward = dir;
         _pushBackTimer.start(1, onPushBackComplete);
+        _sndPushBack.play();
      }
 
      function onPushBackComplete(Timer:FlxTimer) : Void {
