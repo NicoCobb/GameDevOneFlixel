@@ -65,7 +65,7 @@
          _pushBackSpeed = 1000;
 
          _maxBombCount = 3;
-         _currentBombCount = 5;
+         _currentBombCount = 3;
 
          _isPushingBack = false;
          _pushBackTimer = new FlxTimer();
