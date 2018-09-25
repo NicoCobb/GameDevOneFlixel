@@ -7,6 +7,9 @@ import flixel.text.FlxText;
 import flixel.util.FlxAxes;
 import flixel.util.FlxColor;
 
+/**
+    Author: Jinwei Shen
+**/
 class OptionsState extends FlxState {
     var _btnBack: FlxButton;
 

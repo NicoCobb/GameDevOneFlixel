@@ -7,6 +7,9 @@ import flixel.text.FlxText;
 import flixel.util.FlxAxes;
 import flixel.util.FlxColor;
 
+/**
+    Author: Jinwei Shen
+**/
 class MenuState extends FlxState {
     var _txtTitle: FlxText;
     var _btnStart: FlxButton;

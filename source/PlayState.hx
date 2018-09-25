@@ -2,8 +2,10 @@ package;
 
 import flixel.FlxState;
 import flixel.FlxG;
+import flixel.ui.FlxButton;
 import flixel.group.FlxGroup;
 import flixel.util.FlxTimer;
+import flixel.util.FlxColor;
 
 class PlayState extends FlxState
 {
@@ -25,9 +27,10 @@ class PlayState extends FlxState
 
 	// UI
 	var _hud : HUD;
+	var _btnPause : FlxButton;
 
-	// Timer 
-	var _timer : FlxTimer;
+	// Timer
+	public var _timer : FlxTimer;
 
 	// Is game finished
 	var _isGameEnd: Bool;
@@ -51,6 +54,10 @@ class PlayState extends FlxState
 		_hud = new HUD();
 		add(_hud);
 
+		// Pause button
+		_btnPause = new FlxButton(0, 0,"Pause", clickPause);
+		add(_btnPause);
+
 		// Set up timer
 		_timer = new FlxTimer();
 		_timer.start(180, onTimerComplete);
@@ -69,6 +76,12 @@ class PlayState extends FlxState
 		_isGameEnd = true;
     }
 
+	function clickPause(): Void {
+		var _pauseState: SubState = new SubState(0x99808080);
+		_timer.active = false;
+		openSubState(_pauseState);
+	}
+
 	override public function update(elapsed:Float):Void
 	{
 		super.update(elapsed);
@@ -82,7 +95,7 @@ class PlayState extends FlxState
 			{
 				if (ground[i][j].type == Tile.TileType.Unwalkable)
 					FlxG.collide(_players, ground[i][j]);
-				
+
 				if (ground[i][j].type == Tile.TileType.Fire) {
 					_fireTileCount++;
 				}
