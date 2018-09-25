@@ -17,6 +17,7 @@ class MenuState extends FlxState {
 
     override public function create(): Void {
         FlxG.mouse.visible = false;
+        FlxG.cameras.bgColor = 0xff131c1b;
         _txtTitle = new FlxText(0, 50, 500, "Project 1", 30);
         _txtTitle.alignment = CENTER;
         _txtTitle.screenCenter(FlxAxes.X);
@@ -44,7 +45,7 @@ class MenuState extends FlxState {
             param: color, duration, fadefrom/to bool,
         */
         FlxG.camera.fade(FlxColor.BLACK, 1, false, function(){
-            FlxG.switchState(new PlayState());
+            FlxG.switchState(new StoryState());
         });
 
     }
