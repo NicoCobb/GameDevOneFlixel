@@ -26,43 +26,39 @@ class MenuState extends FlxState {
         add(_txtTitle);
 
         var yOffset: Int = 250;
-        var btnScale: Int = 2;
         var labelSize: Int = 16;
         var btnArray: Array<FlxButton> = [_btnStart, _btnOptions, _btnOptions];
         _btnStart = new FlxButton(0, FlxG.height-yOffset, "Start", clickStart);
-        _btnStart.screenCenter(FlxAxes.X);
         _btnStart.scale.set(2,2);
+        _btnStart.updateHitbox();
+        _btnStart.screenCenter(FlxAxes.X);
+        _btnStart.label.fieldWidth = _btnStart.width;
         _btnStart.label.size = labelSize;
         _btnStart.label.alignment = CENTER;
-        _btnStart.label.offset.y += 5;
+        _btnStart.label.offset.y -= 5;
         add(_btnStart);
 
         yOffset -= 70;
         _btnOptions = new FlxButton(0, FlxG.height-yOffset, "Options", clickOptions);
-        _btnOptions.screenCenter(FlxAxes.X);
         _btnOptions.scale.set(2,2);
+        _btnOptions.updateHitbox();
+        _btnOptions.screenCenter(FlxAxes.X);
+        _btnOptions.label.fieldWidth = _btnOptions.width;
         _btnOptions.label.size = labelSize;
         _btnOptions.label.alignment = CENTER;
-        _btnOptions.label.offset.y += 5;
+        _btnOptions.label.offset.y -= 5;
         add(_btnOptions);
 
         yOffset -= 70;
         _btnQuit = new FlxButton(0, FlxG.height-yOffset, "Quit", clickQuit);
-        _btnQuit.screenCenter(FlxAxes.X);
         _btnQuit.scale.set(2,2);
+        _btnQuit.updateHitbox();
+        _btnQuit.screenCenter(FlxAxes.X);
+        _btnQuit.label.fieldWidth = _btnQuit.width;
         _btnQuit.label.size = labelSize;
         _btnQuit.label.alignment = CENTER;
-        _btnQuit.label.offset.y += 5;
+        _btnQuit.label.offset.y -= 5;
         add(_btnQuit);
-
-        // for (i in 0...btnArray.length) {
-        //     btnArray[i].screenCenter(FlxAxes.X);
-        //     btnArray[i].scale.set(btnScale,btnScale);
-        //     btnArray[i].label.size = labelSize;
-        //     btnArray[i].label.alignment = CENTER;
-        //     btnArray[i].label.offset.y += 5;
-        //     // add(btnArray[i]);
-        // }
 
         // Play background music
 		if (FlxG.sound.music == null) {

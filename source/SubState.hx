@@ -17,14 +17,29 @@ class SubState extends FlxSubState {
 
     override public function create(): Void {
         super.create();
+
         _PlayState = cast _parentState;
+
+        var labelSize: Int = 16;
         _btnResume = new FlxButton(0, 0, "Resume", clickResume);
+        _btnResume.scale.set(2,2);
+        _btnResume.updateHitbox();
         _btnResume.screenCenter();
+        _btnResume.label.fieldWidth = _btnResume.width;
+        _btnResume.label.size = labelSize;
+        _btnResume.label.alignment = CENTER;
+        _btnResume.label.offset.y -= 5;
         add(_btnResume);
 
         _btnMenu = new FlxButton(0, 0, "Main Menu", clickMenu);
+        _btnMenu.scale.set(2,2);
+        _btnMenu.updateHitbox();
         _btnMenu.screenCenter();
-        _btnMenu.y += 2 * _btnResume.height;
+        _btnMenu.y = _btnResume.y + 100;
+        _btnMenu.label.fieldWidth = _btnMenu.width;
+        _btnMenu.label.size = labelSize;
+        _btnMenu.label.alignment = CENTER;
+        _btnMenu.label.offset.y -= 5;
         add(_btnMenu);
     }
 
