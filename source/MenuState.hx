@@ -5,6 +5,7 @@ import flixel.FlxState;
 import flixel.ui.FlxButton;
 import flixel.text.FlxText;
 import flixel.util.FlxAxes;
+import flixel.util.FlxColor;
 
 class MenuState extends FlxState {
     var _txtTitle: FlxText;
@@ -12,6 +13,7 @@ class MenuState extends FlxState {
     var _btnOptions: FlxButton;
 
     override public function create(): Void {
+        FlxG.mouse.visible = false;
         _txtTitle = new FlxText(0, 50, 500, "Project 1", 30);
         _txtTitle.alignment = CENTER;
         _txtTitle.screenCenter(FlxAxes.X);
@@ -34,10 +36,19 @@ class MenuState extends FlxState {
     }
 
     function clickStart(): Void {
-        FlxG.switchState(new PlayState());
+        /*
+            Fade effect after clicking the button
+            param: color, duration, fadefrom/to bool,
+        */
+        FlxG.camera.fade(FlxColor.BLACK, 1, false, function(){
+            FlxG.switchState(new PlayState());
+        });
+
     }
 
     function clickOptions(): Void {
-        FlxG.switchState(new OptionsState());
+        FlxG.camera.fade(FlxColor.BLACK, 0.7, false, function(){
+            FlxG.switchState(new OptionsState());
+        });
     }
 }
