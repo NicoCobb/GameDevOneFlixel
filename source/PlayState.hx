@@ -3,7 +3,7 @@ package;
 import flixel.FlxState;
 import flixel.FlxG;
 import flixel.group.FlxGroup;
- import flixel.util.FlxTimer;
+import flixel.util.FlxTimer;
 
 class PlayState extends FlxState
 {
@@ -12,7 +12,7 @@ class PlayState extends FlxState
 	public var _tWidth : Int = 20;
 	public var ground : Array<Array<Tile>>;
 
-	// Player 
+	// Player
 	var _player1 : Player;
 	var _player2 : Player;
 
@@ -22,14 +22,20 @@ class PlayState extends FlxState
 
 	public var _players : FlxTypedGroup<Player>;
 
+
+	// UI
+	var _hud : HUD;
+
 	// Timer 
 	var _timer : FlxTimer;
 
 	// Is game finished
 	var _isGameEnd: Bool;
 
+
 	override public function create():Void
 	{
+		FlxG.mouse.visible = false;
 		FlxG.debugger.visible = true;
 		generateLevel();
 		_player1 = new Player(this, Bomb.BombType.Fire, 64, 64);
@@ -40,6 +46,10 @@ class PlayState extends FlxState
 		_players = new FlxTypedGroup<Player>();
 		_players.add(_player1);
 		_players.add(_player2);
+
+		// HUD info
+		_hud = new HUD();
+		add(_hud);
 
 		// Set up timer
 		_timer = new FlxTimer();
@@ -114,7 +124,7 @@ class PlayState extends FlxState
         {
 			ground.push(new Array<Tile>());
             for (j in 0..._tWidth)
-            {	
+            {
                 if (i==0 || i==(_tHeight-1) || j==0 || j==(_tWidth-1))
                 {
                     ground[i].push(new Tile(Tile.TileType.Unwalkable, j*_baseUnit, i*_baseUnit));
