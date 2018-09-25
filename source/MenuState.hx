@@ -25,6 +25,11 @@ class MenuState extends FlxState {
         _btnOptions.screenCenter(FlxAxes.X);
         add(_btnOptions);
 
+        // Play background music
+		if (FlxG.sound.music == null) {
+			FlxG.sound.playMusic(AssetPaths.simpleSong__ogg, 0.5, true);
+		}
+
         super.create();
     }
 
