@@ -7,12 +7,16 @@ import flixel.text.FlxText;
 import flixel.util.FlxAxes;
 import flixel.util.FlxColor;
 
+/**
+    Author: Jinwei Shen
+**/
 class MenuState extends FlxState {
     var _txtTitle: FlxText;
     var _btnStart: FlxButton;
     var _btnOptions: FlxButton;
 
     override public function create(): Void {
+        FlxG.mouse.visible = false;
         _txtTitle = new FlxText(0, 50, 500, "Project 1", 30);
         _txtTitle.alignment = CENTER;
         _txtTitle.screenCenter(FlxAxes.X);
