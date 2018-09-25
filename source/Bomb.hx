@@ -29,9 +29,13 @@ class Bomb extends FlxSprite{
         _player = p;
         switch (type) {
             case Water:
-                makeGraphic(64, 64, FlxColor.CYAN);
+                //makeGraphic(64, 64, FlxColor.CYAN);
+                loadGraphic(AssetPaths.TurtleEggAnimationSheet__png, true, 64, 64);
+                animation.add("idle", [0, 1, 2, 3], 10, true);
             case Fire:
-                makeGraphic(64, 64, FlxColor.MAGENTA);
+                //makeGraphic(64, 64, FlxColor.MAGENTA);
+                loadGraphic(AssetPaths.SalamanderEggAnimationsheet__png, true, 64, 64);
+                animation.add("idle", [0, 1, 2, 3], 10, true);
             default:
         }
 
@@ -39,6 +43,8 @@ class Bomb extends FlxSprite{
         immovable = true;
         _timer.start(_exploreTime, onExplode);
         _sndExplosion = FlxG.sound.load(AssetPaths.bombExplode__wav);
+
+        animation.play("idle");
     }
 
     // Callback functions invoked when time is up
