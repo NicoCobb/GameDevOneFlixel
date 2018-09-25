@@ -19,7 +19,7 @@ class HUD extends FlxTypedGroup<FlxSprite> {
         super();
 
         // Timer
-        _txtTimer = new FlxText(0, 0, 0, "05 : 00", 22);
+        _txtTimer = new FlxText(0, 0, 0, "03 : 00", 22);
         _txtTimer.color = FlxColor.BLACK;
         _txtTimer.setBorderStyle(SHADOW, FlxColor.GRAY, 1, 1);
         _txtTimer.alignment = CENTER;
@@ -60,10 +60,19 @@ class HUD extends FlxTypedGroup<FlxSprite> {
         add(_txtTerritory2);
     }
 
-    public function updateHUD(Bomb1: Int, Bomb2: Int, Territory1: Int, Territory2: Int): Void {
+    public function updateHUD(Bomb1: Int, Bomb2: Int, Territory1: Int, Territory2: Int, timeLeft: Float): Void {
         _txtBomb1.text = "Bomb left: " + Bomb1;
         _txtBomb2.text = "Bomb left: " + Bomb2;
         _txtTerritory1.text = "P1 Territory: " + Territory1;
         _txtTerritory2.text = "P2 Territory: " + Territory2;
+
+        var min = Math.floor(timeLeft / 60);
+        var sec = Math.floor(timeLeft % 60);
+        if (sec > 9) {
+            _txtTimer.text = "0" + min + " : " + sec;
+        }
+        else {
+            _txtTimer.text = "0" + min + " : 0" + sec;
+        }
     }
 }

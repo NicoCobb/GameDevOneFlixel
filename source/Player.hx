@@ -25,7 +25,7 @@
 
      public var _bombType:Bomb.BombType;
      var _maxBombCount:Int;
-     var _currentBombCount:Int;
+     public var _currentBombCount:Int;
      public var bombs: Array<Bomb>;
 
      var _playState:PlayState;
@@ -113,6 +113,10 @@
          _sndWithdrawBomb.play();
      }
 
+     function isBombFull(): Bool {
+         return _currentBombCount >= _maxBombCount;
+     }
+
      public function movement(elapsed:Float) {
 
         var tileXmin = Math.floor(y / 64.0);
@@ -187,10 +191,10 @@
                 var minY = Math.floor(y / 64);
                 var maxX = Math.ceil(x / 64);
                 var maxY = Math.ceil(y / 64);
-                if (_playState.ground[minY][minX].type == Tile.TileType.FSource ||
+                if (!isBombFull() && (_playState.ground[minY][minX].type == Tile.TileType.FSource ||
                 _playState.ground[minY][maxX].type == Tile.TileType.FSource ||
                 _playState.ground[maxY][minX].type == Tile.TileType.FSource ||
-                _playState.ground[maxY][maxX].type == Tile.TileType.FSource) {
+                _playState.ground[maxY][maxX].type == Tile.TileType.FSource)) {
                     withdrawBombs();
                 }
                 else {
@@ -249,10 +253,10 @@
                 var minY = Math.floor(y / 64);
                 var maxX = Math.ceil(x / 64);
                 var maxY = Math.ceil(y / 64);
-                if (_playState.ground[minY][minX].type == Tile.TileType.WSource ||
+                if (!isBombFull() && (_playState.ground[minY][minX].type == Tile.TileType.WSource ||
                 _playState.ground[minY][maxX].type == Tile.TileType.WSource ||
                 _playState.ground[maxY][minX].type == Tile.TileType.WSource ||
-                _playState.ground[maxY][maxX].type == Tile.TileType.WSource) {
+                _playState.ground[maxY][maxX].type == Tile.TileType.WSource)) {
                     withdrawBombs();
                 }
                 else {
