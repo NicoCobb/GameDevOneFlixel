@@ -24,7 +24,6 @@ class PlayState extends FlxState
 
 	public var _players : FlxTypedGroup<Player>;
 
-
 	// UI
 	var _hud : HUD;
 	var _btnPause : FlxButton;
