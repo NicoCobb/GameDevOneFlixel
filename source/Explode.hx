@@ -29,13 +29,13 @@ class Explode extends FlxSprite {
             default:
         }
         immovable = true;
-
-        overtakeTile();
+        alpha = 0;
         _playState.add(this);
     }
 
     // Callback functions invoked when time is up
     function onTimerComplete(Timer:FlxTimer) : Void {
+        overtakeTile();
         _playState.remove(this);
     }
 
