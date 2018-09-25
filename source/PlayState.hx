@@ -43,7 +43,7 @@ class PlayState extends FlxState
 
 		// Set up timer
 		_timer = new FlxTimer();
-		_timer.start(18, onTimerComplete);
+		_timer.start(180, onTimerComplete);
 
 		// Set up counter for territory
 		_fireTileCount = 0;
