@@ -6,6 +6,7 @@ import flixel.ui.FlxButton;
 import flixel.text.FlxText;
 import flixel.util.FlxAxes;
 import flixel.util.FlxColor;
+import flash.system.System;
 
 /**
     Author: Jinwei Shen
@@ -14,6 +15,7 @@ class MenuState extends FlxState {
     var _txtTitle: FlxText;
     var _btnStart: FlxButton;
     var _btnOptions: FlxButton;
+    var _btnQuit: FlxButton;
 
     override public function create(): Void {
         FlxG.mouse.visible = false;
@@ -23,13 +25,19 @@ class MenuState extends FlxState {
         _txtTitle.screenCenter(FlxAxes.X);
         add(_txtTitle);
 
-        _btnStart = new FlxButton(0, FlxG.height/2 + 40, "Start", clickStart);
+        _btnStart = new FlxButton(0, FlxG.height-200, "Start", clickStart);
         _btnStart.screenCenter(FlxAxes.X);
+        // _btnStart.scale.set(2,2);
+        // _btnStart.label = _txtTitle;
         add(_btnStart);
 
-        _btnOptions = new FlxButton(0, FlxG.height/2 + 70, "Options", clickOptions);
+        _btnOptions = new FlxButton(0, FlxG.height-150, "Options", clickOptions);
         _btnOptions.screenCenter(FlxAxes.X);
         add(_btnOptions);
+
+        _btnQuit = new FlxButton(0, FlxG.height-100, "Quit", clickQuit);
+        _btnQuit.screenCenter(FlxAxes.X);
+        add(_btnQuit);
 
         // Play background music
 		if (FlxG.sound.music == null) {
@@ -47,12 +55,15 @@ class MenuState extends FlxState {
         FlxG.camera.fade(FlxColor.BLACK, 1, false, function(){
             FlxG.switchState(new StoryState());
         });
-
     }
 
     function clickOptions(): Void {
         FlxG.camera.fade(FlxColor.BLACK, 0.7, false, function(){
             FlxG.switchState(new OptionsState());
         });
+    }
+
+    function clickQuit(): Void {
+        System.exit(0);
     }
 }
