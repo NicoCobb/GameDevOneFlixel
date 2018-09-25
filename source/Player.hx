@@ -18,8 +18,8 @@
 
  class Player extends FlxSprite
  {
-     var _speed : Float = 3200;
-     var _slowSpeed : Float = 2400;
+     var _speed : Float = 4000;
+     var _slowSpeed : Float = 3000;
      var _pushBackSpeed: Float = 1000;
      var _forward:Forward;
 
@@ -65,7 +65,8 @@
          bombs = new Array<Bomb>();
          drag.x = 100;
          drag.y = 100;
-         _speed = 3200;
+         _speed = 4000;
+         _slowSpeed = 2500;
          _pushBackSpeed = 1000;
 
          _maxBombCount = 3;
@@ -144,10 +145,7 @@
 
             // Check if player is on opponent's territory
             
-            if (_playState.ground[tileXmin][tileYmin].type == Tile.TileType.Water ||
-            _playState.ground[tileXmin][tileYmax].type == Tile.TileType.Water ||
-            _playState.ground[tileXmax][tileYmin].type == Tile.TileType.Water ||
-            _playState.ground[tileXmax][tileYmax].type == Tile.TileType.Water) {
+            if (_playState.ground[tileXRound][tileYRound].type == Tile.TileType.Water) {
                 _s = _slowSpeed;
             }
             
@@ -206,10 +204,7 @@
         // 2nd player, doesn't work, don't know why
         if (_bombType == Bomb.BombType.Water) {
             
-            if (_playState.ground[tileXmin][tileYmin].type == Tile.TileType.Fire ||
-            _playState.ground[tileXmin][tileYmax].type == Tile.TileType.Fire ||
-            _playState.ground[tileXmax][tileYmin].type == Tile.TileType.Fire ||
-            _playState.ground[tileXmax][tileYmax].type == Tile.TileType.Fire) {
+            if (_playState.ground[tileXRound][tileYRound].type == Tile.TileType.Fire) {
                 _s = _slowSpeed;
             }
 
