@@ -6,6 +6,7 @@ import flixel.ui.FlxButton;
 import flixel.group.FlxGroup;
 import flixel.util.FlxTimer;
 import flixel.util.FlxColor;
+import flixel.math.FlxRandom;
 
 class PlayState extends FlxState
 {
@@ -33,6 +34,7 @@ class PlayState extends FlxState
 
 	// Is game finished
 	var _isGameEnd: Bool;
+	var rand : FlxRandom;
 
 
 	override public function create():Void
@@ -134,30 +136,47 @@ class PlayState extends FlxState
 	public function generateLevel() : Void
     {
 		ground = new Array<Array<Tile>>();
-        for (i in 0..._tHeight)
+        for (col in 0..._tHeight)
         {
 			ground.push(new Array<Tile>());
-            for (j in 0..._tWidth)
-            {
-                if (i==0 || i==(_tHeight-1) || j==0 || j==(_tWidth-1))
-                {
-                    ground[i].push(new Tile(Tile.TileType.Unwalkable, j*_baseUnit, i*_baseUnit));
-                    add(ground[i][j]);
-                }
-				else
-				{
-					if (i==1 && j==1) {
-						ground[i].push(new Tile(Tile.TileType.FSource, j*_baseUnit, i*_baseUnit));
-					}
-					else if (i==(_tHeight-2) && j==(_tWidth-2)) {
-						ground[i].push(new Tile(Tile.TileType.WSource, j*_baseUnit, i*_baseUnit));
-					}
-					else {
-						ground[i].push(new Tile(Tile.TileType.Regular, j*_baseUnit, i*_baseUnit));
-					}
-                    add(ground[i][j]);
+			//split the level into 4 quadrants for level generation
+			//There are 4 generic quadrants from which we generate various levels
+			//The generic tiles only differ by the initial placement of the refill tiles
+			//this method is in progress
+
+			for (row in 0..._tWidth) {
+				if (row == col == 0) { //for now water and fire sources are just in corners
+					ground[i].push(new Tile(Tile.TileType.WSource, row * _baseUnit, col*_baseUnit));
+				} else if ( col == (_tHeight-1) && row == (_tWidth - 1)) {
+					ground[i].push(new Tile(Tile.TileType.FSource, row * _baseUnit, col*_baseUnit));
+				} else if ( row == 0 || col == 0 || row == (t_Width-1 ) || col ==t_Height-1) { //borders have no walls
+					ground[i].push(new Tile(Tile.TileType.Regular, row*_baseUnit, col*_baseUnit));
+				} else {
+					var tileNum: Int = rand.int(Tile.totalTileTypes);
 				}
-            }
+			}
+			// ground.push(new Array<Tile>());
+            // for (j in 0..._tWidth)
+            // {
+            //     if (i==0 || i==(_tHeight-1) || j==0 || j==(_tWidth-1))
+            //     {
+            //         ground[i].push(new Tile(Tile.TileType.Unwalkable, j*_baseUnit, i*_baseUnit));
+            //         add(ground[i][j]);
+            //     }
+			// 	else
+			// 	{
+			// 		if (i==1 && j==1) {
+			// 			ground[i].push(new Tile(Tile.TileType.FSource, j*_baseUnit, i*_baseUnit));
+			// 		}
+			// 		else if (i==(_tHeight-2) && j==(_tWidth-2)) {
+			// 			ground[i].push(new Tile(Tile.TileType.WSource, j*_baseUnit, i*_baseUnit));
+			// 		}
+			// 		else {
+			// 			ground[i].push(new Tile(Tile.TileType.Regular, j*_baseUnit, i*_baseUnit));
+			// 		}
+            //         add(ground[i][j]);
+			// 	}
+            // }
         }
 /*
         _regularTile = new Tile(Tile.TileType.Regular, 32, 32);

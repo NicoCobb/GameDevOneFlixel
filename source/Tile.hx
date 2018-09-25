@@ -17,6 +17,7 @@ enum TileType {
 class Tile extends FlxSprite{
 
     public var type:TileType;
+    public static var totalTileTypes:Int = 6; 
 
      public function new(t:TileType, ?X:Float=0, ?Y:Float=0, ?SimpleGraphic:FlxGraphicAsset) {
         super(X, Y, SimpleGraphic);
