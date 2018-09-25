@@ -100,6 +100,8 @@ class PlayState extends FlxState
 			FlxG.collide(_players, _player2.bombs[i]);
 		}
 
+		_hud.updateHUD(_player1._currentBombCount, _player2._currentBombCount,_fireTileCount, _waterTileCount, _timer.timeLeft);
+
 		if (_isGameEnd) {
 			// jump to Salamander winning screen
 			if (_fireTileCount > _waterTileCount) {

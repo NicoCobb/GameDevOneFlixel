@@ -24,7 +24,7 @@ class Bomb extends FlxSprite{
         super(X, Y, SimpleGraphic);
         _playState = ps;
         type = t;
-        _exploreTime = 3;
+        _exploreTime = 1.5;
         _timer = new FlxTimer();
         _player = p;
         switch (type) {
