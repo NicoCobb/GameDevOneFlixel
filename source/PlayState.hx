@@ -3,6 +3,7 @@ package;
 import flixel.FlxState;
 import flixel.FlxG;
 import flixel.group.FlxGroup;
+ import flixel.util.FlxTimer;
 
 class PlayState extends FlxState
 {
@@ -14,7 +15,18 @@ class PlayState extends FlxState
 	// Player 
 	var _player1 : Player;
 	var _player2 : Player;
+
+	// Territory
+	var _fireTileCount: Int;
+	var _waterTileCount: Int;
+
 	public var _players : FlxTypedGroup<Player>;
+
+	// Timer 
+	var _timer : FlxTimer;
+
+	// Is game finished
+	var _isGameEnd: Bool;
 
 	override public function create():Void
 	{
@@ -29,22 +41,45 @@ class PlayState extends FlxState
 		_players.add(_player1);
 		_players.add(_player2);
 
-		// Play background music
-		if (FlxG.sound.music == null) {
-			FlxG.sound.playMusic(AssetPaths.simpleSong__ogg, 0.75, true);
-		}
+		// Set up timer
+		_timer = new FlxTimer();
+		_timer.start(18, onTimerComplete);
+
+		// Set up counter for territory
+		_fireTileCount = 0;
+		_waterTileCount = 0;
+
+		_isGameEnd = false;
+
 		super.create();
 	}
+
+	// Callback functions invoked when time is up
+    function onTimerComplete(Timer:FlxTimer) : Void {
+		_isGameEnd = true;
+    }
 
 	override public function update(elapsed:Float):Void
 	{
 		super.update(elapsed);
+
+		_fireTileCount = 0;
+		_waterTileCount = 0;
+
 		for (i in 0..._tHeight)
         {
 			for (j in 0..._tWidth)
 			{
 				if (ground[i][j].type == Tile.TileType.Unwalkable)
 					FlxG.collide(_players, ground[i][j]);
+				
+				if (ground[i][j].type == Tile.TileType.Fire) {
+					_fireTileCount++;
+				}
+
+				if (ground[i][j].type == Tile.TileType.Water) {
+					_waterTileCount++;
+				}
 			}
 		}
 
@@ -53,6 +88,21 @@ class PlayState extends FlxState
 		}
 		for (i in 0..._player2.bombs.length) {
 			FlxG.collide(_players, _player2.bombs[i]);
+		}
+
+		if (_isGameEnd) {
+			// jump to Salamander winning screen
+			if (_fireTileCount > _waterTileCount) {
+				FlxG.switchState(new ResultState("Salamander Win!"));
+			}
+			// jump to Turtle winning screen
+			else if (_waterTileCount > _fireTileCount) {
+				FlxG.switchState(new ResultState("Turtle Win!"));
+			}
+			// jump to draw screen
+			else {
+				FlxG.switchState(new ResultState("Draw"));
+			}
 		}
 	}
 
