@@ -122,12 +122,19 @@ class PlayState extends FlxState
                 }
 				else
 				{
-					ground[i].push(new Tile(Tile.TileType.Regular, j*_baseUnit, i*_baseUnit));
+					if (i==1 && j==1) {
+						ground[i].push(new Tile(Tile.TileType.FSource, j*_baseUnit, i*_baseUnit));
+					}
+					else if (i==(_tHeight-2) && j==(_tWidth-2)) {
+						ground[i].push(new Tile(Tile.TileType.WSource, j*_baseUnit, i*_baseUnit));
+					}
+					else {
+						ground[i].push(new Tile(Tile.TileType.Regular, j*_baseUnit, i*_baseUnit));
+					}
                     add(ground[i][j]);
 				}
             }
         }
-
 /*
         _regularTile = new Tile(Tile.TileType.Regular, 32, 32);
 		_unwakableTile = new Tile(Tile.TileType.Unwalkable, 80, 20);

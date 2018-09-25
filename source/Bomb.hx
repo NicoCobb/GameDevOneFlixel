@@ -118,7 +118,9 @@ class Bomb extends FlxSprite{
         if (tileX < 0 || tileY <0 || tileX >= _playState._tHeight || tileY >= _playState._tWidth) {
             return;
         }
-        if (_playState.ground[tileX][tileY].type != Tile.TileType.Unwalkable) {
+        if (_playState.ground[tileX][tileY].type != Tile.TileType.Unwalkable && 
+        _playState.ground[tileX][tileY].type != Tile.TileType.WSource &&
+        _playState.ground[tileX][tileY].type != Tile.TileType.FSource) {
             switch (type) {
                 case Bomb.BombType.Fire:
                     if (_playState.ground[tileX][tileY].type != Tile.TileType.Fire) {
