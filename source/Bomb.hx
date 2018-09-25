@@ -29,9 +29,17 @@ class Bomb extends FlxSprite{
         _player = p;
         switch (type) {
             case Water:
-                makeGraphic(64, 64, FlxColor.CYAN);
+                //makeGraphic(64, 64, FlxColor.CYAN);
+                loadGraphic(AssetPaths.TurtleEggAnimationSheet__png, true, 64, 64);
+                animation.add("idle", [0, 1, 2, 3], 10, true);
+                //loadGraphic(AssetPaths.SplashAnimationsheet__png, true, 192, 192);
+                //animation.add("explode", [0, 1, 2, 3], 10, false);
             case Fire:
-                makeGraphic(64, 64, FlxColor.MAGENTA);
+                //makeGraphic(64, 64, FlxColor.MAGENTA);
+                loadGraphic(AssetPaths.SalamanderEggAnimationsheet__png, true, 64, 64);
+                animation.add("idle", [0, 1, 2, 3], 10, true);
+                //loadGraphic(AssetPaths.ExplosionAnimationsheet__png, true, 192, 192);
+                //animation.add("explode", [0, 1, 2, 3], 10, false);
             default:
         }
 
@@ -39,12 +47,14 @@ class Bomb extends FlxSprite{
         immovable = true;
         _timer.start(_exploreTime, onExplode);
         _sndExplosion = FlxG.sound.load(AssetPaths.bombExplode__wav);
+
+        animation.play("idle");
     }
 
     // Callback functions invoked when time is up
     function onExplode(Timer:FlxTimer) : Void {
-        explode();
         overtakeTile();
+        explode();
         Timer.start(0.3, onRemove);
     }
 
@@ -54,20 +64,37 @@ class Bomb extends FlxSprite{
     }
 
     function explode() : Void {
+        // Load explosion visual effect
+        switch (type) {
+            case Water:
+                loadGraphic(AssetPaths.SplashAnimationsheet__png, true, 192, 192);
+                animation.add("explode", [0, 1, 2, 3], 14, false);
+            case Fire:
+                loadGraphic(AssetPaths.ExplosionAnimationsheet__png, true, 192, 192);
+                animation.add("explode", [0, 1, 2, 3], 14, false);
+            default:
+        }
+
+        // adjust hitbox
+        width = 64;
+        height = 64;
+        offset.set(64, 64);
+
         // Up
         new Explode(Player.Forward.up, type, _playState, x, y-64);
-        new Explode(Player.Forward.up, type, _playState, x, y-64*2);
+        //new Explode(Player.Forward.up, type, _playState, x, y-64*2);
         // Down
         new Explode(Player.Forward.down, type, _playState, x, y+64);
-        new Explode(Player.Forward.down, type, _playState, x, y+64*2);
+        //new Explode(Player.Forward.down, type, _playState, x, y+64*2);
         // Left
         new Explode(Player.Forward.left, type, _playState, x-64, y);
-        new Explode(Player.Forward.left, type, _playState, x-64*2, y);
+        //new Explode(Player.Forward.left, type, _playState, x-64*2, y);
         // Right
         new Explode(Player.Forward.right, type, _playState, x+64, y);
-        new Explode(Player.Forward.right, type, _playState, x+64*2, y);
+        //new Explode(Player.Forward.right, type, _playState, x+64*2, y);
 
         _sndExplosion.play();
+        animation.play("explode");
     }
 
     override public function update(elapsed:Float) : Void

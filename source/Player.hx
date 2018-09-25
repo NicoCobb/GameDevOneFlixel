@@ -52,10 +52,14 @@
          _bombType = bombType;
          switch (_bombType) {
              case Bomb.BombType.Fire:
-                makeGraphic(64, 64, FlxColor.MAGENTA);
+                //makeGraphic(64, 64, FlxColor.MAGENTA);
+                loadGraphic(AssetPaths.SalamanderAnimationSheet__png, true, 64, 64);
+                animation.add("walk", [0, 1, 2], 10, true);
                 _forward = Forward.right;
              case Bomb.BombType.Water:
-                makeGraphic(64, 64, FlxColor.CYAN);
+                //makeGraphic(64, 64, FlxColor.CYAN);
+                loadGraphic(AssetPaths.TurtleAnimationSheet__png, true, 64, 64);
+                animation.add("walk", [0, 1, 2], 10, true);
                 _forward = Forward.left;
          }
          bombs = new Array<Bomb>();
@@ -144,29 +148,38 @@
             }
             
             if (!_isPushingBack) {
+
                 if (FlxG.keys.anyPressed([D]))
                 {
                     velocity.set(_s * elapsed, 0);
                     _forward = Forward.right;
                     sndTempStep.play();
+                    animation.play("walk");
                 }
                 else if (FlxG.keys.anyPressed([A]))
                 {
                     velocity.set(-_s * elapsed, 0);
                     _forward = Forward.left;
                     sndTempStep.play();
+                    animation.play("walk");
                 }
                 else if (FlxG.keys.anyPressed([S]))
                 {
                     velocity.set(0, _s * elapsed);
                     _forward = Forward.down;
                     sndTempStep.play();
+                    animation.play("walk");
                 }
                 else if (FlxG.keys.anyPressed([W]))
                 {
                     velocity.set(0, -_s * elapsed);
                     _forward = Forward.up;
                     sndTempStep.play();
+                    animation.play("walk");
+                }
+                else {
+                    animation.stop();
+
                 }
             }
 
@@ -186,35 +199,55 @@
             }
 
             if (!_isPushingBack) {
+
                 if (FlxG.keys.anyPressed([RIGHT]))
                 {
                     velocity.set(_s * elapsed, 0);
                     _forward = Forward.right;
                     sndTempStep.play();
+                    animation.play("walk");
                 }
                 else if (FlxG.keys.anyPressed([LEFT])) 
                 {
                     velocity.set(-_s * elapsed, 0);
                     _forward = Forward.left;
                     sndTempStep.play();
+                    animation.play("walk");
                 }
                 else if (FlxG.keys.anyPressed([DOWN]))
                 {            
                     velocity.set(0, _s * elapsed);
                     _forward = Forward.down;
                     sndTempStep.play();
+                    animation.play("walk");
                 }
                 else if (FlxG.keys.anyPressed([UP]))
                 {            
                     velocity.set(0, -_s * elapsed);
                     _forward = Forward.up;
                     sndTempStep.play();
+                    animation.play("walk");
+                }
+                else {
+                    animation.stop();
                 }
             }
 
             if (FlxG.keys.anyJustPressed([NUMPADONE])) {
                 douseBomb();
             }
+        }
+
+        // Adjust rotation of sprite
+        switch (_forward) {
+            case up:
+                angle = 0;
+            case down:
+                angle = 180;
+            case right:
+                angle = 90;
+            case left:
+                angle = 270;
         }
      }
 
