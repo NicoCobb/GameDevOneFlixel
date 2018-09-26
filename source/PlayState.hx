@@ -36,6 +36,7 @@ class PlayState extends FlxState
 	// Is game finished
 	var _isGameEnd: Bool;
 	var rand : FlxRandom;
+	
 
 
 	override public function create():Void
@@ -132,49 +133,150 @@ class PlayState extends FlxState
 	// Should be somehow randomized later
 	public function generateLevel() : Void
     {
+		//basic grasslands with start tiles
+		// ground = new Array<Array<Tile>>();
+        // for (i in 0..._tHeight)
+        // {
+		// 	ground.push(new Array<Tile>());
+        //     for (j in 0..._tWidth)
+        //     {
+        //         if (i==0 || i==(_tHeight-1) || j==0 || j==(_tWidth-1))
+        //         {
+        //             ground[i].push(new Tile(Tile.TileType.Unwalkable, j*_baseUnit, i*_baseUnit));
+        //             add(ground[i][j]);
+        //         }
+		// 		else
+		// 		{
+		// 			if (i==1 && j==1) {
+		// 				ground[i].push(new Tile(Tile.TileType.FSource, j*_baseUnit, i*_baseUnit));
+		// 			}
+		// 			else if (i==(_tHeight-2) && j==(_tWidth-2)) {
+		// 				ground[i].push(new Tile(Tile.TileType.WSource, j*_baseUnit, i*_baseUnit));
+		// 			}
+		// 			else {
+		// 				ground[i].push(new Tile(Tile.TileType.Regular, j*_baseUnit, i*_baseUnit));
+		// 			}
+        //             add(ground[i][j]);
+		// 		}
+        //     }
+		// }
+
+		//pseudo random levels: columns and rows version
 		ground = new Array<Array<Tile>>();
-        for (col in 0..._tHeight)
+		//first populate as all grass
+        for (i in 0..._tHeight)
         {
 			ground.push(new Array<Tile>());
-			//split the level into 4 quadrants for level generation
-			//There are 4 generic quadrants from which we generate various levels
-			//The generic tiles only differ by the initial placement of the refill tiles
-			//this method is in progress
-
-			for (row in 0..._tWidth) {
-				if (row == col == 0) { //for now water and fire sources are just in corners
-					ground[i].push(new Tile(Tile.TileType.WSource, row * _baseUnit, col*_baseUnit));
-				} else if ( col == (_tHeight-1) && row == (_tWidth - 1)) {
-					ground[i].push(new Tile(Tile.TileType.FSource, row * _baseUnit, col*_baseUnit));
-				} else if ( row == 0 || col == 0 || row == (t_Width-1 ) || col ==t_Height-1) { //borders have no walls
-					ground[i].push(new Tile(Tile.TileType.Regular, row*_baseUnit, col*_baseUnit));
-				} else {
-					var tileNum: Int = rand.int(Tile.totalTileTypes);
+            for (j in 0..._tWidth)
+            {
+				ground[i].push(new Tile(Tile.TileType.Regular, j*_baseUnit, i*_baseUnit));
+                add(ground[i][j]);
+            }
+		}
+		//then select from one of 5 basic start shapes
+		var seedNum : Int = FlxG.random.int(0,4);
+		switch(seedNum) {
+			case 0:
+				replaceTile(0, 0, Tile.TileType.WSource);
+				// remove(ground[0][0]);
+				// ground[0][0] = new Tile(Tile.TileType.WSource, 0*_baseUnit, 0*_baseUnit);
+				// add(ground[0][0]);
+				replaceTile((_tHeight - 1), (_tWidth - 1), Tile.TileType.FSource);
+				// remove(ground[_tHeight - 1][_tWidth - 1]);
+				// ground[_tHeight - 1][_tWidth - 1] = new Tile(Tile.TileType.FSource, (_tHeight - 1)*_baseUnit, (_tWidth - 1)*_baseUnit);
+				// add(ground[_tHeight - 1][_tWidth - 1]);
+			case 1:
+				replaceTile((_tHeight - 1), 0, Tile.TileType.WSource);
+				// remove(ground[_tHeight - 1][0]);
+				// ground[_tHeight - 1][0] = new Tile(Tile.TileType.WSource, (_tHeight - 1)*_baseUnit, 0*_baseUnit);
+				// add(ground[_tHeight - 1][0]);
+				replaceTile(0,(_tWidth - 1), Tile.TileType.FSource);
+				// remove(ground[0][_tWidth - 1]);
+				// ground[0][_tWidth - 1] = new Tile(Tile.TileType.FSource, 0*_baseUnit, (_tWidth - 1)*_baseUnit);
+				// add(ground[0][_tWidth - 1]);
+			case 2:
+				replaceTile(0, 8, Tile.TileType.WSource);
+				// remove(ground[0][8]);
+				// ground[0][8] = new Tile(Tile.TileType.WSource, 0*_baseUnit, 8*_baseUnit);
+				// add(ground[0][8]);
+				replaceTile(0,11,Tile.TileType.FSource);
+				// remove(ground[0][11]);
+				// ground[0][11] = new Tile(Tile.TileType.FSource, 0*_baseUnit, 11*_baseUnit);
+				// add(ground[0][11]);
+			case 3:
+				replaceTile(11, 8, Tile.TileType.WSource);
+				// remove(ground[11][8]);
+				// ground[11][8] = new Tile(Tile.TileType.WSource, 11*_baseUnit, 8*_baseUnit);
+				// add(ground[11][8]);
+				replaceTile(11,11,Tile.TileType.FSource);
+				// remove(ground[11][11]);
+				// ground[11][11] = new Tile(Tile.TileType.FSource, 11*_baseUnit, 11*_baseUnit);
+				// add(ground[11][11]);
+			case 4:
+				replaceTile(6,8,Tile.TileType.WSource);
+				// remove(ground[6][8]);
+				// ground[6][8] = new Tile(Tile.TileType.WSource, 6*_baseUnit, 8*_baseUnit);
+				// add(ground[6][8]);
+				replaceTile(6,11,Tile.TileType.FSource);
+				// remove(ground[6][11]);
+				// ground[6][11] = new Tile(Tile.TileType.FSource, 6*_baseUnit, 11*_baseUnit);
+				// add(ground[6][11]);
+			default:
+				//no default
+		}
+		//if false, walls can only generate on odd rows
+		//if true, walls can only generate on odd cols
+		//will try to get a better algorithm if possible but I know this makes playable levels
+		var useOddCols : Bool = FlxG.random.bool();
+		for (i in 0..._tHeight) {
+			for (j in 0..._tWidth) {
+				if (ground[i][j].type == Tile.TileType.WSource || ground[i][j].type == Tile.TileType.FSource)
+					continue;
+				else if (useOddCols && (j % 2 == 1)) {
+					var isWall : Bool = FlxG.random.bool(35);
+					if (isWall)
+						replaceTile(i, j, Tile.TileType.Unwalkable);
+				}
+				else if (!useOddCols && (i % 2 == 1)) {
+					var isWall : Bool = FlxG.random.bool(60);
+					if (isWall)
+						replaceTile(i, j, Tile.TileType.Unwalkable);
 				}
 			}
-			// ground.push(new Array<Tile>());
-            // for (j in 0..._tWidth)
-            // {
-            //     if (i==0 || i==(_tHeight-1) || j==0 || j==(_tWidth-1))
-            //     {
-            //         ground[i].push(new Tile(Tile.TileType.Unwalkable, j*_baseUnit, i*_baseUnit));
-            //         add(ground[i][j]);
-            //     }
-			// 	else
-			// 	{
-			// 		if (i==1 && j==1) {
-			// 			ground[i].push(new Tile(Tile.TileType.FSource, j*_baseUnit, i*_baseUnit));
-			// 		}
-			// 		else if (i==(_tHeight-2) && j==(_tWidth-2)) {
-			// 			ground[i].push(new Tile(Tile.TileType.WSource, j*_baseUnit, i*_baseUnit));
-			// 		}
-			// 		else {
-			// 			ground[i].push(new Tile(Tile.TileType.Regular, j*_baseUnit, i*_baseUnit));
-			// 		}
-            //         add(ground[i][j]);
-			// 	}
-            // }
-        }
+		}
+
+		//safety check: check cols or rows and make sure there is at least one opening
+		if(useOddCols) {
+			var j : Int = 1;
+			while(j < _tWidth) {
+				var isPassable: Bool = false;
+				for(i in 0..._tHeight) {
+					if (ground[i][j].type == Tile.TileType.Regular)
+						isPassable = true;
+				}
+				if(!isPassable) {
+					var randLocation = FlxG.random.int(0, (_tHeight - 1));
+					replaceTile(randLocation, j, Tile.TileType.Regular);
+				}
+				j += 2;
+			}
+		} else {
+			var i : Int = 1;
+			while(i < _tHeight) {
+				var isPassable: Bool = false;
+				for(j in 0..._tWidth) {
+					if (ground[i][j].type == Tile.TileType.Regular)
+						isPassable = true;
+				}
+				if(!isPassable) {
+					var randLocation = FlxG.random.int(0, (_tWidth - 1));
+					replaceTile(i, randLocation, Tile.TileType.Regular);
+				}
+				i += 2;
+			}
+		}
+
+			
 /*
         _regularTile = new Tile(Tile.TileType.Regular, 32, 32);
 		_unwakableTile = new Tile(Tile.TileType.Unwalkable, 80, 20);
@@ -189,5 +291,12 @@ class PlayState extends FlxState
 		add(_fSourceTile);
 		add(_wSourceTile);
         */
-    }
+	}
+
+	private function replaceTile(row: Int, col: Int, targetType : Tile.TileType) : Void 
+	{
+		remove(ground[row][col]);
+		ground[row][col] = new Tile(targetType, row*_baseUnit, col*_baseUnit);
+		add(ground[row][col]);
+	}
 }

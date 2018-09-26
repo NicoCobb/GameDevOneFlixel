@@ -21,22 +21,30 @@ class Tile extends FlxSprite{
 
      public function new(t:TileType, ?X:Float=0, ?Y:Float=0, ?SimpleGraphic:FlxGraphicAsset) {
         super(X, Y, SimpleGraphic);
+        loadGraphic(AssetPaths.Tileset1__png, true, 64, 64);
         type = t;
         switch (type) {
             case Regular:
-                makeGraphic(64, 64, FlxColor.GREEN);
+                animation.add("idle",[3], 10, true);
+                //makeGraphic(64, 64, FlxColor.GREEN);
             case Unwalkable:
-                makeGraphic(64, 64, FlxColor.WHITE);
+                animation.add("idle",[0], 10, true);
+                //makeGraphic(64, 64, FlxColor.WHITE);
             case Water:
-                makeGraphic(64, 64, FlxColor.BLUE);
+                animation.add("idle",[4], 10, true);
+                //makeGraphic(64, 64, FlxColor.BLUE);
             case Fire:
-                makeGraphic(64, 64, FlxColor.RED);
+                animation.add("idle",[1], 10, true);
+                //makeGraphic(64, 64, FlxColor.RED);
             case FSource:
-                makeGraphic(64, 64, FlxColor.RED);
+                animation.add("idle",[2], 10, true);
+                //makeGraphic(64, 64, FlxColor.RED);
             case WSource:
-                makeGraphic(64, 64, FlxColor.BLUE);
+                animation.add("idle",[5], 10, true);
+                //makeGraphic(64, 64, FlxColor.BLUE);
             default:
         }
         immovable = true;
+        animation.play("idle");
      }
  }
