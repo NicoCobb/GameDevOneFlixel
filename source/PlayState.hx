@@ -38,7 +38,7 @@ class PlayState extends FlxState
 
 	override public function create():Void
 	{
-		FlxG.mouse.visible = false;
+		FlxG.mouse.visible = true;
 		FlxG.debugger.visible = true;
 		FlxG.camera.fade(FlxColor.BLACK, 1, true);
 		generateLevel();
@@ -56,7 +56,8 @@ class PlayState extends FlxState
 		add(_hud);
 
 		// Pause button
-		_btnPause = new FlxButton(0, 0,"Pause", clickPause);
+		_btnPause = new FlxButton(0, 0,"", clickPause);
+		_btnPause.loadGraphic("assets/images/PauseButton.png", false, 40, 40);
 		add(_btnPause);
 
 		// Set up timer
