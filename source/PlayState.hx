@@ -11,7 +11,7 @@ import lime.math.Vector2;
 
 class PlayState extends FlxState
 {
-	var _baseUnit : Int = 64;
+	public var _baseUnit : Int = 64;
 	public var _tHeight : Int = 12;
 	public var _tWidth : Int = 20;
 	public var ground : Array<Array<Tile>>;
@@ -40,6 +40,11 @@ class PlayState extends FlxState
 	var _isGameEnd: Bool;
 	var rand : FlxRandom;
 
+	// Add bounds
+	var upBound: InvisibleBound;
+	var downBound: InvisibleBound;
+	var leftBound: InvisibleBound;
+	var rightBound: InvisibleBound;
 
 	override public function create():Void
 	{
@@ -74,6 +79,12 @@ class PlayState extends FlxState
 		_waterTileCount = 0;
 
 		_isGameEnd = false;
+
+		// Bounds
+		upBound = new InvisibleBound(64, 64*(_tWidth+2), -64, -64);
+		downBound = new InvisibleBound(64, 64*(_tWidth+2), -64, 64*_tHeight);
+		leftBound = new InvisibleBound(64 * _tHeight, 64, -64, 0);
+		rightBound = new InvisibleBound(64 * _tHeight, 64, 64 * _tWidth, 0);
 
 		super.create();
 	}
@@ -122,6 +133,12 @@ class PlayState extends FlxState
 		for (i in 0..._player2.bombs.length) {
 			FlxG.collide(_players, _player2.bombs[i]);
 		}
+
+		// Collision with bounds
+		FlxG.collide(_players, upBound);
+		FlxG.collide(_players, downBound);
+		FlxG.collide(_players, leftBound);
+		FlxG.collide(_players, rightBound);
 
 		_hud.updateHUD(_player1._currentBombCount, _player2._currentBombCount,_fireTileCount, _waterTileCount, _timer.timeLeft);
 

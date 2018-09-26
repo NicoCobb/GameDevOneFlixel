@@ -100,6 +100,11 @@
         _sndPushBack = FlxG.sound.load(AssetPaths.thrownBack__wav);
 
         _isWithdraw = false;
+
+        // Shrink hitbox
+        width = 40;
+        height = 40;
+        offset.set(12, 12);
      }
 
      override public function update(elapsed:Float) : Void
@@ -204,6 +209,12 @@
                 var minY = Math.floor(y / 64);
                 var maxX = Math.ceil(x / 64);
                 var maxY = Math.ceil(y / 64);
+
+                if (minX < 0) minX = 0;
+                if (minY < 0) minY = 0;
+                if (maxX >= _playState._tWidth)  maxX = _playState._tWidth - 1;
+                if (maxY >= _playState._tHeight)  maxY = _playState._tHeight - 1;
+
                 if (!isBombFull() && (_playState.ground[minY][minX].type == Tile.TileType.FSource ||
                 _playState.ground[minY][maxX].type == Tile.TileType.FSource ||
                 _playState.ground[maxY][minX].type == Tile.TileType.FSource ||
@@ -308,7 +319,8 @@
             }
 
             // Check the validity
-            if (_playState.ground[tempY][tempX].type == Tile.TileType.Unwalkable) {
+            if (tempX < 0 || tempY < 0 || tempX >=_playState._tWidth || tempY >=_playState._tHeight ||
+             _playState.ground[tempY][tempX].type == Tile.TileType.Unwalkable) {
                 return;
             }
             tempBomb = new Bomb(this, _playState, _bombType, tempX*64, tempY*64);
@@ -322,6 +334,8 @@
      // Push back function
      public function pushBack(dir:Forward) {
          _isPushingBack = true;
+         drag.x = 0;
+         drag.y = 0;
          switch (dir) {
              case Forward.left:
                 velocity.set(-_pushBackSpeed, 0);
@@ -341,5 +355,7 @@
 
      function onPushBackComplete(Timer:FlxTimer) : Void {
          _isPushingBack = false;
+         drag.x = 1000000000000;
+         drag.y = 1000000000000;
      }
  }
