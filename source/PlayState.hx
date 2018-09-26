@@ -31,6 +31,7 @@ class PlayState extends FlxState
 
 	// Timer
 	public var _timer : FlxTimer;
+	var _gameDuration : Int = 120;
 
 	// Is game finished
 	var _isGameEnd: Bool;
@@ -39,8 +40,9 @@ class PlayState extends FlxState
 
 	override public function create():Void
 	{
-		FlxG.mouse.visible = false;
+		FlxG.mouse.visible = true;
 		FlxG.debugger.visible = true;
+		FlxG.camera.fade(FlxColor.BLACK, 0.5, true);
 		generateLevel();
 		_player1 = new Player(this, Bomb.BombType.Fire, 64, 64);
 		add(_player1);
@@ -56,12 +58,13 @@ class PlayState extends FlxState
 		add(_hud);
 
 		// Pause button
-		_btnPause = new FlxButton(0, 0,"Pause", clickPause);
+		_btnPause = new FlxButton(0, 0,"", clickPause);
+		_btnPause.loadGraphic("assets/images/PauseButton.png", false, 40, 40);
 		add(_btnPause);
 
 		// Set up timer
 		_timer = new FlxTimer();
-		_timer.start(180, onTimerComplete);
+		_timer.start(_gameDuration, onTimerComplete, 1);
 
 		// Set up counter for territory
 		_fireTileCount = 0;
@@ -89,6 +92,9 @@ class PlayState extends FlxState
 
 		_fireTileCount = 0;
 		_waterTileCount = 0;
+		if (FlxG.keys.justPressed.ESCAPE) {
+			clickPause();
+		}
 
 		for (i in 0..._tHeight)
         {
@@ -117,18 +123,9 @@ class PlayState extends FlxState
 		_hud.updateHUD(_player1._currentBombCount, _player2._currentBombCount,_fireTileCount, _waterTileCount, _timer.timeLeft);
 
 		if (_isGameEnd) {
-			// jump to Salamander winning screen
-			if (_fireTileCount > _waterTileCount) {
-				FlxG.switchState(new ResultState("Salamander Win!"));
-			}
-			// jump to Turtle winning screen
-			else if (_waterTileCount > _fireTileCount) {
-				FlxG.switchState(new ResultState("Turtle Win!"));
-			}
-			// jump to draw screen
-			else {
-				FlxG.switchState(new ResultState("Draw"));
-			}
+			FlxG.camera.fade(FlxColor.BLACK, 0.1, false, function(){
+            	FlxG.switchState(new GameOverState(_fireTileCount, _waterTileCount));
+        	});
 		}
 	}
 
