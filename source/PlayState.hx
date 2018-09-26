@@ -1,6 +1,7 @@
 package;
 
 import flixel.FlxState;
+import flixel.FlxCamera;
 import flixel.FlxG;
 import flixel.ui.FlxButton;
 import flixel.group.FlxGroup;
@@ -38,7 +39,6 @@ class PlayState extends FlxState
 
 	// Is game finished
 	var _isGameEnd: Bool;
-	var rand : FlxRandom;
 
 	// Add bounds
 	var upBound: InvisibleBound;
@@ -51,6 +51,7 @@ class PlayState extends FlxState
 		FlxG.mouse.visible = false;
 		FlxG.debugger.visible = true;
 		FlxG.camera.fade(FlxColor.BLACK, 0.5, true);
+		camera = new FlxCamera(0, 0, 64*_tWidth, 64*_tHeight);
 		generateLevel();
 		_player1 = new Player(this, Bomb.BombType.Fire, p1Start.y*64, p1Start.x*64);
 		add(_player1);
@@ -302,5 +303,10 @@ class PlayState extends FlxState
 		remove(ground[row][col]);
 		ground[row][col] = new Tile(targetType, col*_baseUnit, row*_baseUnit);
 		add(ground[row][col]);
+	}
+
+	public function cameraShake(): Void
+	{
+		FlxG.camera.shake(0.003, 0.3);
 	}
 }
