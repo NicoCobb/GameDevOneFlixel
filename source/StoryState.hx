@@ -28,30 +28,31 @@ class StoryState extends FlxState {
         FlxG.camera.fade(FlxColor.BLACK, 1, true);
         FlxG.mouse.visible = false;
 
-        _txtLine1 = new FlxTypeText(80, 100, FlxG.width-120, "There was once a land that was ripe for reptiles and amphibians alike.", 20, true);
+        var _txtWidth: Int = FlxG.width-160;
+        _txtLine1 = new FlxTypeText(80, 100, _txtWidth, "There was once a land that was ripe for reptiles and amphibians alike.", 20, true);
         _txtLine1.color = FlxColor.CYAN;
 
-        _txtLine2 = new FlxTypeText(80, 40, FlxG.width-120, "A land where the dreams of all the little turtles and salamanders of the world could come to fruition.", 20, true);
+        _txtLine2 = new FlxTypeText(80, 40, _txtWidth, "A land where the dreams of all the little turtles and salamanders of the world could come to fruition.", 20, true);
         _txtLine2.y = _txtLine1.height + _txtLine1.y + 20;
         _txtLine2.color = FlxColor.CYAN;
 
-        _txtLine3 = new FlxTypeText(80, 40, FlxG.width-120, "Unfortunately, it was the dream of one such turtle to drive all the salamanders from this slice of paradise.", 20, true);
+        _txtLine3 = new FlxTypeText(80, 40, _txtWidth, "Unfortunately, it was the dream of one such turtle to drive all the salamanders from this slice of paradise.", 20, true);
         _txtLine3.y = _txtLine2.height*2 + _txtLine2.y + 20;
         _txtLine3.color = FlxColor.CYAN;
 
-        _txtLine4 = new FlxTypeText(80, 40, FlxG.width-120, "He'd wander around, dousing the ground with water to keep the salamanders away.", 20, true);
+        _txtLine4 = new FlxTypeText(80, 40, _txtWidth, "He'd wander around, dousing the ground with water to keep the salamanders away.", 20, true);
         _txtLine4.y = _txtLine3.height*2 + _txtLine3.y + 20;
         _txtLine4.color = FlxColor.CYAN;
 
-        _txtLine5 = new FlxTypeText(80, 40, FlxG.width-120, "He was the turtle the salamanders warned their children about.", 20, true);
+        _txtLine5 = new FlxTypeText(80, 40, _txtWidth, "He was the turtle the salamanders warned their children about.", 20, true);
         _txtLine5.y = _txtLine4.height + _txtLine4.y + 20;
         _txtLine5.color = FlxColor.CYAN;
 
-        _txtLine6 = new FlxTypeText(80, 40, FlxG.width-120, "However, one day a little salamander was born who had a dream of his own: to drive all the turtles away from this land.", 20, true);
+        _txtLine6 = new FlxTypeText(80, 40, _txtWidth, "However, one day a little salamander was born who had a dream of his own: to drive all the turtles away from this land.", 20, true);
         _txtLine6.y = _txtLine5.height + _txtLine5.y + 20;
         _txtLine6.color = FlxColor.CYAN;
 
-        _txtLine7 = new FlxTypeText(80, 40, FlxG.width-120, "So this salamander set out with his flames to fight back against the turtle and claim this land for the amphibians once and for all.", 20, true);
+        _txtLine7 = new FlxTypeText(80, 40, _txtWidth, "So this salamander set out with his flames to fight back against the turtle and claim this land for the amphibians once and for all.", 20, true);
         _txtLine7.y = _txtLine6.height*2 + _txtLine6.y + 20;
         _txtLine7.color = FlxColor.CYAN;
 

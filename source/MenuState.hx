@@ -27,7 +27,7 @@ class MenuState extends FlxState {
         _txtTitle.screenCenter(FlxAxes.X);
         add(_txtTitle);
 
-        var yOffset: Int = 250;
+        var yOffset: Int = 300;
         var labelSize: Int = 16;
         var btnArray: Array<FlxButton> = [_btnStart, _btnOptions, _btnOptions];
         _btnStart = new FlxButton(0, FlxG.height-yOffset, "Start", clickStart);
