@@ -196,7 +196,6 @@ class PlayState extends FlxState
 		}
 		//then select from one of 5 basic start shapes
 		var seedNum : Int = FlxG.random.int(0,4);
-		seedNum = 3;
 		switch(seedNum) {
 			case 0:
 				p1Start.setTo(0, 0);
