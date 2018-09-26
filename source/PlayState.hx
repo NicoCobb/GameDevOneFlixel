@@ -48,7 +48,7 @@ class PlayState extends FlxState
 
 	override public function create():Void
 	{
-		FlxG.mouse.visible = true;
+		FlxG.mouse.visible = false;
 		FlxG.debugger.visible = true;
 		FlxG.camera.fade(FlxColor.BLACK, 0.5, true);
 		generateLevel();
@@ -67,7 +67,8 @@ class PlayState extends FlxState
 
 		// Pause button
 		_btnPause = new FlxButton(0, 0,"", clickPause);
-		_btnPause.loadGraphic("assets/images/PauseButton.png", false, 40, 40);
+		// _btnPause.loadGraphic("assets/images/PauseButton.png", false, 40, 40);
+		_btnPause.visible = false;
 		add(_btnPause);
 
 		// Set up timer
@@ -279,7 +280,7 @@ class PlayState extends FlxState
 			}
 		}
 
-			
+
 /*
         _regularTile = new Tile(Tile.TileType.Regular, 32, 32);
 		_unwakableTile = new Tile(Tile.TileType.Unwalkable, 80, 20);
@@ -296,7 +297,7 @@ class PlayState extends FlxState
         */
 	}
 
-	private function replaceTile(row: Int, col: Int, targetType : Tile.TileType) : Void 
+	private function replaceTile(row: Int, col: Int, targetType : Tile.TileType) : Void
 	{
 		remove(ground[row][col]);
 		ground[row][col] = new Tile(targetType, col*_baseUnit, row*_baseUnit);
