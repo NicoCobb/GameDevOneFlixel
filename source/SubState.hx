@@ -49,6 +49,8 @@ class SubState extends FlxSubState {
     }
 
     function clickMenu(): Void {
-        FlxG.switchState(new MenuState());
+        FlxG.camera.fade(FlxColor.BLACK, 0.7, false, function(){
+            FlxG.switchState(new MenuState());
+        });
     }
 }
