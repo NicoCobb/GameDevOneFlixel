@@ -36,7 +36,6 @@ class PlayState extends FlxState
 	// Is game finished
 	var _isGameEnd: Bool;
 	var rand : FlxRandom;
-	
 
 
 	override public function create():Void
@@ -175,6 +174,7 @@ class PlayState extends FlxState
 		}
 		//then select from one of 5 basic start shapes
 		var seedNum : Int = FlxG.random.int(0,4);
+		seedNum = 0;
 		switch(seedNum) {
 			case 0:
 				replaceTile(0, 0, Tile.TileType.WSource);
@@ -296,7 +296,7 @@ class PlayState extends FlxState
 	private function replaceTile(row: Int, col: Int, targetType : Tile.TileType) : Void 
 	{
 		remove(ground[row][col]);
-		ground[row][col] = new Tile(targetType, row*_baseUnit, col*_baseUnit);
+		ground[row][col] = new Tile(targetType, col*_baseUnit, row*_baseUnit);
 		add(ground[row][col]);
 	}
 }
