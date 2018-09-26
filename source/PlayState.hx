@@ -30,7 +30,7 @@ class PlayState extends FlxState
 
 	// Timer
 	public var _timer : FlxTimer;
-	var _gameDuration : Int = 180;
+	var _gameDuration : Int = 120;
 
 	// Is game finished
 	var _isGameEnd: Bool;
@@ -61,7 +61,7 @@ class PlayState extends FlxState
 
 		// Set up timer
 		_timer = new FlxTimer();
-		_timer.start(_gameDuration, onTimerComplete);
+		_timer.start(_gameDuration, onTimerComplete, 1);
 
 		// Set up counter for territory
 		_fireTileCount = 0;
