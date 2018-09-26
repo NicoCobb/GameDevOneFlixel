@@ -100,6 +100,11 @@
         _sndPushBack = FlxG.sound.load(AssetPaths.thrownBack__wav);
 
         _isWithdraw = false;
+
+        // Shrink hitbox
+        width = 48;
+        height = 48;
+        offset.set(8, 8);
      }
 
      override public function update(elapsed:Float) : Void
