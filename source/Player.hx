@@ -209,6 +209,12 @@
                 var minY = Math.floor(y / 64);
                 var maxX = Math.ceil(x / 64);
                 var maxY = Math.ceil(y / 64);
+
+                if (minX < 0) minX = 0;
+                if (minY < 0) minY = 0;
+                if (maxX >= _playState._tWidth)  maxX = _playState._tWidth - 1;
+                if (maxY >= _playState._tHeight)  maxY = _playState._tHeight - 1;
+
                 if (!isBombFull() && (_playState.ground[minY][minX].type == Tile.TileType.FSource ||
                 _playState.ground[minY][maxX].type == Tile.TileType.FSource ||
                 _playState.ground[maxY][minX].type == Tile.TileType.FSource ||
@@ -313,7 +319,8 @@
             }
 
             // Check the validity
-            if (_playState.ground[tempY][tempX].type == Tile.TileType.Unwalkable) {
+            if (tempX < 0 || tempY < 0 || tempX >=_playState._tWidth || tempY >=_playState._tHeight ||
+             _playState.ground[tempY][tempX].type == Tile.TileType.Unwalkable) {
                 return;
             }
             tempBomb = new Bomb(this, _playState, _bombType, tempX*64, tempY*64);
