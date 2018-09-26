@@ -30,6 +30,7 @@ class PlayState extends FlxState
 
 	// Timer
 	public var _timer : FlxTimer;
+	var _gameDuration : Int = 180;
 
 	// Is game finished
 	var _isGameEnd: Bool;
@@ -59,7 +60,7 @@ class PlayState extends FlxState
 
 		// Set up timer
 		_timer = new FlxTimer();
-		_timer.start(180, onTimerComplete);
+		_timer.start(_gameDuration, onTimerComplete);
 
 		// Set up counter for territory
 		_fireTileCount = 0;
@@ -115,18 +116,7 @@ class PlayState extends FlxState
 		_hud.updateHUD(_player1._currentBombCount, _player2._currentBombCount,_fireTileCount, _waterTileCount, _timer.timeLeft);
 
 		if (_isGameEnd) {
-			// jump to Salamander winning screen
-			if (_fireTileCount > _waterTileCount) {
-				FlxG.switchState(new ResultState("Salamander Win!"));
-			}
-			// jump to Turtle winning screen
-			else if (_waterTileCount > _fireTileCount) {
-				FlxG.switchState(new ResultState("Turtle Win!"));
-			}
-			// jump to draw screen
-			else {
-				FlxG.switchState(new ResultState("Draw"));
-			}
+			FlxG.switchState(new GameOverState(_fireTileCount, _waterTileCount));
 		}
 	}
 
