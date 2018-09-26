@@ -102,9 +102,9 @@
         _isWithdraw = false;
 
         // Shrink hitbox
-        width = 48;
-        height = 48;
-        offset.set(8, 8);
+        width = 40;
+        height = 40;
+        offset.set(12, 12);
      }
 
      override public function update(elapsed:Float) : Void
@@ -334,6 +334,8 @@
      // Push back function
      public function pushBack(dir:Forward) {
          _isPushingBack = true;
+         drag.x = 0;
+         drag.y = 0;
          switch (dir) {
              case Forward.left:
                 velocity.set(-_pushBackSpeed, 0);
@@ -353,5 +355,7 @@
 
      function onPushBackComplete(Timer:FlxTimer) : Void {
          _isPushingBack = false;
+         drag.x = 1000000000000;
+         drag.y = 1000000000000;
      }
  }
