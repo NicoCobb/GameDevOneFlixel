@@ -21,7 +21,7 @@ class MenuState extends FlxState {
         FlxG.mouse.visible = false;
         FlxG.cameras.bgColor = 0xff131c1b;
         FlxG.camera.fade(FlxColor.BLACK, 1, true);
-        _txtTitle = new FlxText(0, 150, 500, "Project 1", 30);
+        _txtTitle = new FlxText(0, 150, 500, "Nesting Grounds", 30);
         _txtTitle.alignment = CENTER;
         _txtTitle.screenCenter(FlxAxes.X);
         add(_txtTitle);
