@@ -45,6 +45,9 @@
      var _sndWithdrawBomb: FlxSound;
      var _sndPushBack: FlxSound;
 
+     // indicate if in withdraw
+     var _isWithdraw: Bool;
+
      public function new(_ps:PlayState, bombType:Bomb.BombType, ?X:Float=0, ?Y:Float=0, ?SimpleGraphic:FlxGraphicAsset)
      {
          super(X, Y, SimpleGraphic);
@@ -54,14 +57,19 @@
              case Bomb.BombType.Fire:
                 //makeGraphic(64, 64, FlxColor.MAGENTA);
                 loadGraphic(AssetPaths.SalamanderAnimationSheet__png, true, 64, 64);
-                animation.add("walk", [0, 1, 2], 10, true);
+                animation.add("walk", [0, 1, 2], 10, false);
+                animation.add("withdraw", [3, 4, 5], 10, false);
                 _forward = Forward.right;
              case Bomb.BombType.Water:
                 //makeGraphic(64, 64, FlxColor.CYAN);
                 loadGraphic(AssetPaths.TurtleAnimationSheet__png, true, 64, 64);
-                animation.add("walk", [0, 1, 2], 10, true);
+                animation.add("walk", [0, 1, 2], 10, false);
+                animation.add("withdraw", [3, 4, 5], 10, false);
                 _forward = Forward.left;
          }
+
+        animation.finishCallback = onWithdrawFinished;
+
          bombs = new Array<Bomb>();
          drag.x = 100;
          drag.y = 100;
@@ -90,6 +98,8 @@
         _sndPlaceBomb = FlxG.sound.load(AssetPaths.placeBomb__wav);
         _sndWithdrawBomb = FlxG.sound.load(AssetPaths.withdrawBomb__wav);
         _sndPushBack = FlxG.sound.load(AssetPaths.thrownBack__wav);
+
+        _isWithdraw = false;
      }
 
      override public function update(elapsed:Float) : Void
@@ -112,6 +122,14 @@
      public function withdrawBombs() {
          _currentBombCount = _maxBombCount;
          _sndWithdrawBomb.play();
+         _isWithdraw = true;
+         animation.play("withdraw");
+     }
+
+     function onWithdrawFinished(animName: String) {
+         if (animName == "withdraw") {
+            _isWithdraw = false;
+         }
      }
 
      function isBombFull(): Bool {
@@ -156,31 +174,28 @@
                     velocity.set(_s * elapsed, 0);
                     _forward = Forward.right;
                     sndTempStep.play();
-                    animation.play("walk");
+                    if (!_isWithdraw) animation.play("walk");
                 }
                 else if (FlxG.keys.anyPressed([A]))
                 {
                     velocity.set(-_s * elapsed, 0);
                     _forward = Forward.left;
                     sndTempStep.play();
-                    animation.play("walk");
+                    if (!_isWithdraw) animation.play("walk");
                 }
                 else if (FlxG.keys.anyPressed([S]))
                 {
                     velocity.set(0, _s * elapsed);
                     _forward = Forward.down;
                     sndTempStep.play();
-                    animation.play("walk");
+                    if (!_isWithdraw) animation.play("walk");
                 }
                 else if (FlxG.keys.anyPressed([W]))
                 {
                     velocity.set(0, -_s * elapsed);
                     _forward = Forward.up;
                     sndTempStep.play();
-                    animation.play("walk");
-                }
-                else {
-                    animation.stop();
+                    if (!_isWithdraw) animation.play("walk");
                 }
             }
 
@@ -215,31 +230,28 @@
                     velocity.set(_s * elapsed, 0);
                     _forward = Forward.right;
                     sndTempStep.play();
-                    animation.play("walk");
+                    if (!_isWithdraw) animation.play("walk");
                 }
                 else if (FlxG.keys.anyPressed([LEFT])) 
                 {
                     velocity.set(-_s * elapsed, 0);
                     _forward = Forward.left;
                     sndTempStep.play();
-                    animation.play("walk");
+                    if (!_isWithdraw) animation.play("walk");
                 }
                 else if (FlxG.keys.anyPressed([DOWN]))
                 {            
                     velocity.set(0, _s * elapsed);
                     _forward = Forward.down;
                     sndTempStep.play();
-                    animation.play("walk");
+                    if (!_isWithdraw) animation.play("walk");
                 }
                 else if (FlxG.keys.anyPressed([UP]))
                 {            
                     velocity.set(0, -_s * elapsed);
                     _forward = Forward.up;
                     sndTempStep.play();
-                    animation.play("walk");
-                }
-                else {
-                    animation.stop();
+                    if (!_isWithdraw) animation.play("walk");
                 }
             }
 
