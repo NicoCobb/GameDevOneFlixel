@@ -74,8 +74,8 @@
          drag.x = 1000000000000;
          drag.y = 1000000000000;
          _speed = 18000;
-         _slowSpeed = 12000;
-         _pushBackSpeed = 1000;
+         _slowSpeed = 9500;
+         _pushBackSpeed = 650;
 
          _maxBombCount = 3;
          _currentBombCount = 3;

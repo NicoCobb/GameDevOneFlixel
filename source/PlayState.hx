@@ -244,7 +244,7 @@ class PlayState extends FlxState
 						replaceTile(i, j, Tile.TileType.Unwalkable);
 				}
 				else if (!useOddCols && (i % 2 == 1)) {
-					var isWall : Bool = FlxG.random.bool(58);
+					var isWall : Bool = FlxG.random.bool(53);
 					if (isWall)
 						replaceTile(i, j, Tile.TileType.Unwalkable);
 				}
