@@ -94,6 +94,7 @@ class Bomb extends FlxSprite{
         //new Explode(Player.Forward.right, type, _playState, x+64*2, y);
 
         _sndExplosion.play();
+        _playState.cameraShake();
         animation.play("explode");
     }
 
