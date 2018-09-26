@@ -40,7 +40,7 @@ class PlayState extends FlxState
 	{
 		FlxG.mouse.visible = true;
 		FlxG.debugger.visible = true;
-		FlxG.camera.fade(FlxColor.BLACK, 1, true);
+		FlxG.camera.fade(FlxColor.BLACK, 0.5, true);
 		generateLevel();
 		_player1 = new Player(this, Bomb.BombType.Fire, 64, 64);
 		add(_player1);
@@ -90,6 +90,9 @@ class PlayState extends FlxState
 
 		_fireTileCount = 0;
 		_waterTileCount = 0;
+		if (FlxG.keys.justPressed.ESCAPE) {
+			clickPause();
+		}
 
 		for (i in 0..._tHeight)
         {
@@ -118,7 +121,9 @@ class PlayState extends FlxState
 		_hud.updateHUD(_player1._currentBombCount, _player2._currentBombCount,_fireTileCount, _waterTileCount, _timer.timeLeft);
 
 		if (_isGameEnd) {
-			FlxG.switchState(new GameOverState(_fireTileCount, _waterTileCount));
+			FlxG.camera.fade(FlxColor.BLACK, 0.1, false, function(){
+            	FlxG.switchState(new GameOverState(_fireTileCount, _waterTileCount));
+        	});
 		}
 	}
 

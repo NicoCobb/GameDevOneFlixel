@@ -17,7 +17,7 @@ class SubState extends FlxSubState {
 
     override public function create(): Void {
         super.create();
-
+        FlxG.mouse.visible = true;
         _PlayState = cast _parentState;
 
         var labelSize: Int = 16;
@@ -41,6 +41,14 @@ class SubState extends FlxSubState {
         _btnMenu.label.alignment = CENTER;
         _btnMenu.label.offset.y -= 5;
         add(_btnMenu);
+    }
+
+    override public function update(elapsed: Float): Void {
+        super.update(elapsed);
+
+        if (FlxG.keys.justPressed.ESCAPE) {
+            clickResume();
+        }
     }
 
     function clickResume(): Void {

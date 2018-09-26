@@ -25,7 +25,7 @@ class StoryState extends FlxState {
     public var _txtLine: Array<FlxTypeText>;
 
     override public function create(): Void {
-        FlxG.camera.fade(FlxColor.BLACK, 1, true);
+        FlxG.camera.fade(FlxColor.BLACK, 0.7, true);
         FlxG.mouse.visible = false;
 
         var _txtWidth: Int = FlxG.width-160;
@@ -56,7 +56,7 @@ class StoryState extends FlxState {
         _txtLine7.y = _txtLine6.height*2 + _txtLine6.y + 20;
         _txtLine7.color = FlxColor.CYAN;
 
-        _txtNext = new FlxText(0, 0, "Press Enter to Start", 14);
+        _txtNext = new FlxText(0, 0, "Press Enter to Continue", 14);
         _txtNext.x = FlxG.width - _txtNext.width - 30;
         _txtNext.y = FlxG.height - _txtNext.height - 10;
         _txtNext.visible = false;

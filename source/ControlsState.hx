@@ -30,6 +30,7 @@ class ControlsState extends FlxState {
 
     override public function create(): Void {
         FlxG.mouse.visible = true;
+        FlxG.camera.fade(FlxColor.BLACK, 0.5, true);
 
         _txtTitle = new FlxText(0, 150, "Controls", 30);
         _txtTitle.alignment = CENTER;

@@ -20,7 +20,7 @@ class MenuState extends FlxState {
     override public function create(): Void {
         FlxG.mouse.visible = true;
         FlxG.cameras.bgColor = 0xff131c1b;
-        FlxG.camera.fade(FlxColor.BLACK, 1, true);
+        FlxG.camera.fade(FlxColor.BLACK, 0.5, true);
 
         _txtTitle = new FlxText(0, 150, "Nesting Grounds", 30);
         _txtTitle.alignment = CENTER;
@@ -30,7 +30,7 @@ class MenuState extends FlxState {
         var yOffset: Int = 300;
         var labelSize: Int = 16;
         var btnArray: Array<FlxButton> = [_btnStart, _btnOptions, _btnOptions];
-        _btnStart = new FlxButton(0, FlxG.height-yOffset, "Start", clickStart);
+        _btnStart = new FlxButton(0, FlxG.height-yOffset, "Play", clickStart);
         _btnStart.scale.set(2,2);
         _btnStart.updateHitbox();
         _btnStart.screenCenter(FlxAxes.X);

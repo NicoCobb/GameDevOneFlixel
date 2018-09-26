@@ -31,6 +31,7 @@ class GameOverState extends FlxState {
     }
 
     override public function create(): Void {
+        FlxG.camera.fade(FlxColor.BLACK, 0.5, true);
         _txtTitle = new FlxText(0, 150, "Draw!", 30);
         if (_score1 == _score2) {
             _txtTitle.text = "Draw!";
@@ -58,7 +59,7 @@ class GameOverState extends FlxState {
         add(_txtHighScore);
 
         var labelSize: Int = 16;
-        _btnRetry = new FlxButton(0, 0, "Retry", clickRetry);
+        _btnRetry = new FlxButton(0, 0, "Play Again", clickRetry);
         _btnRetry.scale.set(2,2);
         _btnRetry.updateHitbox();
         _btnRetry.screenCenter();
@@ -86,7 +87,7 @@ class GameOverState extends FlxState {
     function checkHighScore(Score: Int): Int {
         var _hi: Int = Score;
         var _save: FlxSave = new FlxSave();
-        if (_save.bind("flixel-p1")) {
+        if (_save.bind("Nesting_Gounds")) {
             if (_save.data.hiscore != null && _save.data.hiscore > _hi) {
                 _hi = _save.data.hiscore;
             } else {
