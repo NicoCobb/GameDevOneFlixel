@@ -199,7 +199,7 @@
                 }
             }
 
-            if (FlxG.keys.anyJustPressed([G])) {
+            if (FlxG.keys.anyJustPressed([C])) {
                 var minX = Math.floor(x / 64);
                 var minY = Math.floor(y / 64);
                 var maxX = Math.ceil(x / 64);
@@ -255,7 +255,7 @@
                 }
             }
 
-            if (FlxG.keys.anyJustPressed([NUMPADONE])) {
+            if (FlxG.keys.anyJustPressed([SLASH])) {
                 var minX = Math.floor(x / 64);
                 var minY = Math.floor(y / 64);
                 var maxX = Math.ceil(x / 64);
