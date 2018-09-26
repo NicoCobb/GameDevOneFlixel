@@ -271,6 +271,12 @@
                 var minY = Math.floor(y / 64);
                 var maxX = Math.ceil(x / 64);
                 var maxY = Math.ceil(y / 64);
+
+                if (minX < 0) minX = 0;
+                if (minY < 0) minY = 0;
+                if (maxX >= _playState._tWidth)  maxX = _playState._tWidth - 1;
+                if (maxY >= _playState._tHeight)  maxY = _playState._tHeight - 1;
+
                 if (!isBombFull() && (_playState.ground[minY][minX].type == Tile.TileType.WSource ||
                 _playState.ground[minY][maxX].type == Tile.TileType.WSource ||
                 _playState.ground[maxY][minX].type == Tile.TileType.WSource ||
