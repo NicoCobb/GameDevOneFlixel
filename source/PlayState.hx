@@ -7,6 +7,7 @@ import flixel.group.FlxGroup;
 import flixel.util.FlxTimer;
 import flixel.util.FlxColor;
 import flixel.math.FlxRandom;
+import lime.math.Vector2;
 
 class PlayState extends FlxState
 {
@@ -18,6 +19,8 @@ class PlayState extends FlxState
 	// Player
 	var _player1 : Player;
 	var _player2 : Player;
+	public var p1Start : Vector2 = new Vector2(0,0);
+	public var p2Start : Vector2 = new Vector2(0,0);
 
 	// Territory
 	var _fireTileCount: Int;
@@ -49,9 +52,9 @@ class PlayState extends FlxState
 		FlxG.debugger.visible = true;
 		FlxG.camera.fade(FlxColor.BLACK, 0.5, true);
 		generateLevel();
-		_player1 = new Player(this, Bomb.BombType.Fire, 64, 64);
+		_player1 = new Player(this, Bomb.BombType.Fire, p1Start.y*64, p1Start.x*64);
 		add(_player1);
-		_player2 = new Player(this, Bomb.BombType.Water, (_tWidth-2)*64, (_tHeight-2)*64);
+		_player2 = new Player(this, Bomb.BombType.Water, p2Start.y*64, p2Start.x*64);
 		add(_player2);
 
 		_players = new FlxTypedGroup<Player>();
@@ -191,53 +194,36 @@ class PlayState extends FlxState
 		}
 		//then select from one of 5 basic start shapes
 		var seedNum : Int = FlxG.random.int(0,4);
-		seedNum = 0;
 		switch(seedNum) {
 			case 0:
-				replaceTile(0, 0, Tile.TileType.WSource);
-				// remove(ground[0][0]);
-				// ground[0][0] = new Tile(Tile.TileType.WSource, 0*_baseUnit, 0*_baseUnit);
-				// add(ground[0][0]);
-				replaceTile((_tHeight - 1), (_tWidth - 1), Tile.TileType.FSource);
-				// remove(ground[_tHeight - 1][_tWidth - 1]);
-				// ground[_tHeight - 1][_tWidth - 1] = new Tile(Tile.TileType.FSource, (_tHeight - 1)*_baseUnit, (_tWidth - 1)*_baseUnit);
-				// add(ground[_tHeight - 1][_tWidth - 1]);
+				p1Start.setTo(0, 0);
+				replaceTile(0, 0, Tile.TileType.FSource);
+				p2Start.setTo((_tHeight - 1), (_tWidth - 1));
+				replaceTile((_tHeight - 1), (_tWidth - 1), Tile.TileType.WSource);
 			case 1:
-				replaceTile((_tHeight - 1), 0, Tile.TileType.WSource);
-				// remove(ground[_tHeight - 1][0]);
-				// ground[_tHeight - 1][0] = new Tile(Tile.TileType.WSource, (_tHeight - 1)*_baseUnit, 0*_baseUnit);
-				// add(ground[_tHeight - 1][0]);
-				replaceTile(0,(_tWidth - 1), Tile.TileType.FSource);
-				// remove(ground[0][_tWidth - 1]);
-				// ground[0][_tWidth - 1] = new Tile(Tile.TileType.FSource, 0*_baseUnit, (_tWidth - 1)*_baseUnit);
-				// add(ground[0][_tWidth - 1]);
+				p1Start.setTo((_tHeight - 1), 0);
+				replaceTile((_tHeight - 1), 0, Tile.TileType.FSource);
+				p2Start.setTo(0,(_tWidth - 1));
+				replaceTile(0,(_tWidth - 1), Tile.TileType.WSource);
+
 			case 2:
-				replaceTile(0, 8, Tile.TileType.WSource);
-				// remove(ground[0][8]);
-				// ground[0][8] = new Tile(Tile.TileType.WSource, 0*_baseUnit, 8*_baseUnit);
-				// add(ground[0][8]);
-				replaceTile(0,11,Tile.TileType.FSource);
-				// remove(ground[0][11]);
-				// ground[0][11] = new Tile(Tile.TileType.FSource, 0*_baseUnit, 11*_baseUnit);
-				// add(ground[0][11]);
+				p1Start.setTo(0,8);
+				replaceTile(0, 8, Tile.TileType.FSource);
+				p2Start.setTo(0,11);
+				replaceTile(0,11,Tile.TileType.WSource);
+
 			case 3:
-				replaceTile(11, 8, Tile.TileType.WSource);
-				// remove(ground[11][8]);
-				// ground[11][8] = new Tile(Tile.TileType.WSource, 11*_baseUnit, 8*_baseUnit);
-				// add(ground[11][8]);
-				replaceTile(11,11,Tile.TileType.FSource);
-				// remove(ground[11][11]);
-				// ground[11][11] = new Tile(Tile.TileType.FSource, 11*_baseUnit, 11*_baseUnit);
-				// add(ground[11][11]);
+				p1Start.setTo(0,8);
+				replaceTile(11, 8, Tile.TileType.FSource);
+				p2Start.setTo(11,8);
+				replaceTile(11,11,Tile.TileType.WSource);
+
 			case 4:
-				replaceTile(6,8,Tile.TileType.WSource);
-				// remove(ground[6][8]);
-				// ground[6][8] = new Tile(Tile.TileType.WSource, 6*_baseUnit, 8*_baseUnit);
-				// add(ground[6][8]);
-				replaceTile(6,11,Tile.TileType.FSource);
-				// remove(ground[6][11]);
-				// ground[6][11] = new Tile(Tile.TileType.FSource, 6*_baseUnit, 11*_baseUnit);
-				// add(ground[6][11]);
+				p1Start.setTo(6,8);
+				replaceTile(6,8,Tile.TileType.FSource);
+				p2Start.setTo(6,11);
+				replaceTile(6,11,Tile.TileType.WSource);
+
 			default:
 				//no default
 		}
@@ -250,12 +236,12 @@ class PlayState extends FlxState
 				if (ground[i][j].type == Tile.TileType.WSource || ground[i][j].type == Tile.TileType.FSource)
 					continue;
 				else if (useOddCols && (j % 2 == 1)) {
-					var isWall : Bool = FlxG.random.bool(35);
+					var isWall : Bool = FlxG.random.bool(65);
 					if (isWall)
 						replaceTile(i, j, Tile.TileType.Unwalkable);
 				}
 				else if (!useOddCols && (i % 2 == 1)) {
-					var isWall : Bool = FlxG.random.bool(60);
+					var isWall : Bool = FlxG.random.bool(70);
 					if (isWall)
 						replaceTile(i, j, Tile.TileType.Unwalkable);
 				}

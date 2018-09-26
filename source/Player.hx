@@ -18,8 +18,8 @@
 
  class Player extends FlxSprite
  {
-     var _speed : Float = 4000;
-     var _slowSpeed : Float = 3000;
+     var _speed : Float = 40000;
+     var _slowSpeed : Float = 30000;
      var _pushBackSpeed: Float = 1000;
      var _forward:Forward;
 
@@ -71,10 +71,10 @@
         animation.finishCallback = onWithdrawFinished;
 
          bombs = new Array<Bomb>();
-         drag.x = 100;
-         drag.y = 100;
-         _speed = 4000;
-         _slowSpeed = 2500;
+         drag.x = 1000000000000;
+         drag.y = 1000000000000;
+         _speed = 18000;
+         _slowSpeed = 12000;
          _pushBackSpeed = 1000;
 
          _maxBombCount = 3;
