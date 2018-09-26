@@ -219,12 +219,12 @@ class PlayState extends FlxState
 				if (ground[i][j].type == Tile.TileType.WSource || ground[i][j].type == Tile.TileType.FSource)
 					continue;
 				else if (useOddCols && (j % 2 == 1)) {
-					var isWall : Bool = FlxG.random.bool(65);
+					var isWall : Bool = FlxG.random.bool(55);
 					if (isWall)
 						replaceTile(i, j, Tile.TileType.Unwalkable);
 				}
 				else if (!useOddCols && (i % 2 == 1)) {
-					var isWall : Bool = FlxG.random.bool(70);
+					var isWall : Bool = FlxG.random.bool(58);
 					if (isWall)
 						replaceTile(i, j, Tile.TileType.Unwalkable);
 				}
