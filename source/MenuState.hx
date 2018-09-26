@@ -18,10 +18,11 @@ class MenuState extends FlxState {
     var _btnQuit: FlxButton;
 
     override public function create(): Void {
-        FlxG.mouse.visible = false;
+        FlxG.mouse.visible = true;
         FlxG.cameras.bgColor = 0xff131c1b;
         FlxG.camera.fade(FlxColor.BLACK, 1, true);
-        _txtTitle = new FlxText(0, 150, 500, "Project 1", 30);
+
+        _txtTitle = new FlxText(0, 150, "Project 1", 30);
         _txtTitle.alignment = CENTER;
         _txtTitle.screenCenter(FlxAxes.X);
         add(_txtTitle);
@@ -40,7 +41,7 @@ class MenuState extends FlxState {
         add(_btnStart);
 
         yOffset -= 70;
-        _btnOptions = new FlxButton(0, FlxG.height-yOffset, "Options", clickOptions);
+        _btnOptions = new FlxButton(0, FlxG.height-yOffset, "Controls", clickOptions);
         _btnOptions.scale.set(2,2);
         _btnOptions.updateHitbox();
         _btnOptions.screenCenter(FlxAxes.X);
@@ -81,7 +82,7 @@ class MenuState extends FlxState {
 
     function clickOptions(): Void {
         FlxG.camera.fade(FlxColor.BLACK, 0.7, false, function(){
-            FlxG.switchState(new OptionsState());
+            FlxG.switchState(new ControlsState());
         });
     }
 

@@ -38,7 +38,7 @@ class PlayState extends FlxState
 
 	override public function create():Void
 	{
-		FlxG.mouse.visible = false;
+		FlxG.mouse.visible = true;
 		FlxG.debugger.visible = true;
 		FlxG.camera.fade(FlxColor.BLACK, 1, true);
 		generateLevel();

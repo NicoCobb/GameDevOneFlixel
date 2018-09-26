@@ -26,8 +26,8 @@ class StoryState extends FlxState {
 
     override public function create(): Void {
         FlxG.camera.fade(FlxColor.BLACK, 1, true);
-
         FlxG.mouse.visible = false;
+
         _txtLine1 = new FlxTypeText(80, 100, FlxG.width-120, "There was once a land that was ripe for reptiles and amphibians alike.", 20, true);
         _txtLine1.color = FlxColor.CYAN;
 
