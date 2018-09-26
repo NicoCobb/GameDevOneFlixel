@@ -40,6 +40,7 @@ class PlayState extends FlxState
 	{
 		FlxG.mouse.visible = false;
 		FlxG.debugger.visible = true;
+		FlxG.camera.fade(FlxColor.BLACK, 1, true);
 		generateLevel();
 		_player1 = new Player(this, Bomb.BombType.Fire, 64, 64);
 		add(_player1);

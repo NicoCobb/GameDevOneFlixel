@@ -25,6 +25,7 @@ class StoryState extends FlxState {
     public var _txtLine: Array<FlxTypeText>;
 
     override public function create(): Void {
+        FlxG.camera.fade(FlxColor.BLACK, 1, true);
 
         FlxG.mouse.visible = false;
         _txtLine1 = new FlxTypeText(80, 100, FlxG.width-120, "There was once a land that was ripe for reptiles and amphibians alike.", 20, true);
@@ -84,7 +85,9 @@ class StoryState extends FlxState {
         super.update(elapsed);
 
         if (_txtNext.visible && FlxG.keys.anyPressed([ENTER])) {
-            FlxG.switchState(new PlayState());
+            FlxG.camera.fade(FlxColor.BLACK, 0.7, false, function(){
+                FlxG.switchState(new PlayState());
+            });
         }
     }
     function onComplete(index: Int): Void {
